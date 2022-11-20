@@ -1,20 +1,24 @@
 # Load Packages ----
-library(shiny)
+# library(shiny)
 library(shinydashboard)
 library(shinyBS)
 library(shinyWidgets)
 library(boastUtils)
 library(ggplot2)
 library(stats)
-library(statip)
+# library(statip)
 library(dplyr)
 library(ggimage)
+library(extraDistr)
 
 # Load additional dependencies and setup functions
 # source("global.R")
 
 bank <- read.csv("questionbank.csv")
-bank$Feedback <- as.character(bank$Feedback)
+bank2 <- read.csv("questionbank2.csv")
+bank3 <- read.csv("questionbank3.csv")
+# bank$Feedback <- as.character(bank$Feedback)
+# bank2$Feedback <- as.character(bank2$Feedback)
 
 
 # Define UI for App ----
@@ -98,7 +102,7 @@ ui <- list(
             2022. Special Thanks to Neil for being incredibly 
             helpful with programming issues.",
             br(),
-            div(class = "updated", "Last Update: 7/26/2022 by YY.")
+            div(class = "updated", "Last Update: 11/17/2022 by YY.")
           )
         ),
         #### Set up the Prerequisites Page ----
@@ -114,13 +118,13 @@ ui <- list(
             collapsed = TRUE,
             width = '100%',
             p(
-              tags$strong("Description: "), "It is a discrete probability 
-              distribution which has only two outcomes -- Success or Failure(which
-              always be coded Success 1 and Failure 0). 
-              p is the probability of Success. X represents for the probability of 
-              getting the success in one trial.",
+              tags$strong("Description: "), "A Bernoulli variable, X, is a 
+              discrete variable which has only two outcomes -- 1 and 0. 
+              p is the probability of 1.",
               br(),
-              tags$strong("Notation: "), "X ~ Bern(p)"
+              tags$strong("Notation: "), "X ~ Bern(p)",
+              br(),
+              tags$strong("E(x): "), "p"
             )
           ),
           box(
@@ -130,13 +134,15 @@ ui <- list(
             collapsed = TRUE,
             width = '100%',
             p(
-              tags$strong("Description: "), "It is a discrete probability 
-              distribution with success probability p and n independent 
-              experiments. X represents for the number of successes.",
+              tags$strong("Description: "), "A Binomial variable, X, 
+              is a discrete variable measuring the number of successes in n 
+              independent experiments with probability p of success in each 
+              trial.",
               br(),
               tags$strong("Notation: "), "X ~ Bin(n, p)",
               br(),
-              tags$strong("Special Case: "), "Bern(p) is equil to Bin(n = 1, p)",
+              tags$strong("Special Case: "), "Bern(p) is equivalent to 
+              Bin(n = 1, p)",
               br(),
               tags$strong("E(x): "), "np"
             )
@@ -148,16 +154,14 @@ ui <- list(
             collapsed = TRUE,
             width = '100%',
             p(
-              tags$strong("Description: "), "It is a discrete probability 
-              distribution which describes the probability of X successes in 
-              n draws which are", strong("not independent"), ", without replacement,
-              which means ", strong("probability of success changes"), ", from 
-              a population size of N that contains m of objects with success.
-              X represents the number of successes.",
+              tags$strong("Description: "), "A Hypergeometric variable, X, 
+              is a discrete variable which measures the number of successes in
+              n draws from a population with N objects of which M are 
+              successes.",
               br(),
-              tags$strong("Notation: "), "X ~ HG(n, m, N)",
+              tags$strong("Notation: "), "X ~ HG(n, M, N)",
               br(),
-              tags$strong("E(x): "), "nm/N"
+              tags$strong("E(x): "), "nM/N"
             )
           ),
           box(
@@ -167,10 +171,10 @@ ui <- list(
             collapsed = TRUE,
             width = '100%',
             p(
-              tags$strong("Description: "), "It is a discrete probability 
-              distribution which describes the probability that the occurrence of", 
-              strong("first success"), "after X independent trials, each with
-              success probability p. X represents for the number of trials.",
+              tags$strong("Description: "), "A Geometric variable, X, is a 
+              discrete variable which describes the number of independent 
+              trials until the first success where each trial 
+              has probability p of success.", 
               br(),
               tags$strong("Common Notation: "), "X ~ Geom(p)",
               br(),
@@ -184,14 +188,15 @@ ui <- list(
             collapsed = TRUE,
             width = '100%',
             p(
-              tags$strong("Description: "), "It is a discrete probability 
-              distribution which describes the probability that the occurrence of", 
-              strong("the rth success"), "after X independent trials, each with
-              success probability p. X represents for the number of trials.",
+              tags$strong("Description: "), "A Negative Binomial variable, X, 
+              is a discrete variable which describes the number of independent 
+              trials before the rth success where each trial has 
+              probability p of success.",
               br(),
               tags$strong("Common Notation: "), "X ~ NBin(r, p)",
               br(),
-              tags$strong("Special Case: "), "Geom(p) is equal to NBin(r = 1, p)",
+              tags$strong("Special Case: "), "Geom(p) is equivalent to 
+              NBin(r = 1, p)",
               br(),
               tags$strong("E(x): "), "r/p"
             )
@@ -203,14 +208,18 @@ ui <- list(
             collapsed = FALSE,
             width = '100%',
             p(
-              "In", tags$strong("binomial"), "and", tags$strong("hypergeometric"),
+              "For the", tags$strong("binomial"), "and", 
+              tags$strong("hypergeometric"),
               ": the number of trials is ", strong("fixed and known"), 
-              ", and the number of successes is ",
-              strong("random variable"), "(of interest).",
+              ", and the number of successes is the ",
+              strong("random variable"), "of interest.",
               br(),
-              "In", tags$strong("geometric"), "and", 
-              tags$strong("negative binomial"), ": the number of trials is ", 
-              strong("random variable"), "and the number of successes is", 
+              br(),
+              "For the", tags$strong("geometric"), "and", 
+              tags$strong("negative binomial"), 
+              ": the number of trials is the ", 
+              strong("random variable"), 
+              "of interest and the number of successes is", 
               strong("fixed and known. ")
             )
           )
@@ -230,8 +239,8 @@ ui <- list(
               h3("Instructions"),
               p("For this part, the Trial Number is what we are interested in 
                 and Success Number is fixed."),
-              p("So, ", strong("Geometric"), "distribution and ", strong("Negative
-                 Binomial"), "distribution are suitable for this page."),
+              p("So, ", strong("Geometric"), "distribution and ", 
+                strong("Negative Binomial"), "distribution are suitable."),
               br(),
               sidebarLayout(
                 sidebarPanel(
@@ -253,7 +262,7 @@ ui <- list(
                   ),
                   sliderInput(
                     inputId = "samPath1",
-                    label = "Number of Sample Path",
+                    label = "Number of Sample Paths",
                     min = 1,
                     max = 3,
                     step = 1,
@@ -270,10 +279,10 @@ ui <- list(
                   plotOutput(outputId = "trialsPlot", width = "100%"),
                   p(strong("Key: ")),
                   p(img(src = "black dot.webp", width = "30px"),
-                        "Black dots represents Sample Space."),
+                        "Black dots represents sample space."),
                   p(img(src = "steplines.jpg", width = "30px"),
-                    "Each line represents one Sample Path which is 
-                    influenced by the Success Number and Probability of Success"),
+                    "Each line represents one sample path which is 
+                    influenced by the success number and probability of success"),
                   p(img(src = "rhombus.webp", width = "20px"),
                     " The blue diamond represents expected value")
                 )
@@ -285,7 +294,7 @@ ui <- list(
               p("For this part, the Success number is what we are interested in
                 and the Trial Number is fixed."),
               p("So, ", strong("Bernoulli"), "distribution and ", strong(
-                "Binomial"), "distribution are suitable for this page."),
+                "Binomial"), "distribution are suitable."),
               br(),
               sidebarLayout(
                 sidebarPanel(
@@ -307,7 +316,7 @@ ui <- list(
                   ),
                   sliderInput(
                     inputId = "samPath2",
-                    label = "Number of Sample Path",
+                    label = "Number of Sample Paths",
                     min = 1,
                     max = 3,
                     step = 1,
@@ -324,10 +333,10 @@ ui <- list(
                   plotOutput(outputId = "successPlot", width = "100%"),
                   p(strong("Key: ")),
                   p(img(src = "black dot.webp", width = "30px"),
-                    "Black dots represents Sample Space."),
+                    "Black dots represents sample space."),
                   p(img(src = "steplines.jpg", width = "30px"),
-                    "Each line represents one Sample Path which is 
-                    influenced by the Success Number and Probability of Success"),
+                    "Each line represents one sample path which is 
+                    influenced by the success number and probability of success"),
                   p(img(src = "rhombus.webp", width = "20px"),
                     " The blue diamond represents expected value")
                 )
@@ -342,26 +351,38 @@ ui <- list(
           h2("Choosing distribution game"),
           p(strong("Instructions: "), "For each 
               question, choose the most suitable distribution for that situation.
-              The Probability Mass Function graph shown up in the right 
-              would help you choose the correct one."),
-          br(),
-          p(strong("Background Scenario: ")),
-          wellPanel(
-            style = "background-color: #FFFFFF",
-            p("There are 30 balls in a box. 6 of them are red which means that
-              the probability of getting a red ball from the box is 0.2. Here
-              are some questions based on several supposed situations.")
+              The graph of the probability mass function will appear as a hint 
+            when you click the 'show PMF' button."),
+          selectInput(
+            inputId = "backSce", label = "Background Scenario",
+            choices = c('Scenario A', 'Scenario B', 'Scenario C'),
+            selected = 'Scenario A'
           ),
-          p(strong("Questions: ")),
+          conditionalPanel(
+            condition = "input.backSce == 'Scenario A'",
+              p("There are 30 balls in a box and 6 of them are red.")
+          ),
+          conditionalPanel(
+            condition = "input.backSce == 'Scenario B'",
+              p("In Pennsylvania, 10% of vehicles order a Big Mac in the 
+                drive thru window of McDonalds.")
+          ),
+          conditionalPanel(
+            condition = "input.backSce == 'Scenario C'",
+              p("40% of the people in a college town have type A blood.
+                There is a Red Cross Station where people from the town donate blood.")
+          ),
           fluidRow(
             column(
               width = 6,
               wellPanel(
+                h3("Questions: "),
+                br(),
                 uiOutput("question"),
                 br(),
                 radioGroupButtons(
                   inputId = "mc1",
-                  label = "Which distribution is suitable for the question?",
+                  label = "Which distribution is relevant for the question?",
                   direction = "vertical",
                   selected = character(0),
                   checkIcon = list(
@@ -379,8 +400,8 @@ ui <- list(
                   individual = FALSE
                 ),
                 uiOutput("mark"),
-                br(),
-                uiOutput("Feedback"),
+                # br(),
+                # uiOutput("Feedback"),
                 br(),
                 bsButton(
                   inputId = "submit",
@@ -412,7 +433,7 @@ ui <- list(
               uiOutput("gameProgressTree", align = "center"),
               bsButton(
                 inputId = "hint",
-                label = "Show PMF graph",
+                label = "Show PMF",
                 size = "default"
             ),
             plotOutput("Plot", width = "400")
@@ -424,14 +445,44 @@ ui <- list(
           tabName = "references",
           withMathJax(),
           h2("References"),
-          p("You'll need to fill in this page with all of the appropriate
-            references for your app."),
-          p(
-            class = "hangingindent",
-            "Bailey, E. (2015). shinyBS: Twitter bootstrap components for shiny.
-            (v0.61). [R package]. Available from
-            https://CRAN.R-project.org/package=shinyBS"
-          ),
+          p(class = "hangingindent",
+            "Eric Bailey (2022). shinyBS: Twitter Bootstrap Components for Shiny.
+          R package version 0.61.1. 
+          https://CRAN.R-project.org/package=shinyBS"),
+          p(class = "hangingindent",
+            "Guangchuang Yu (2022). ggimage: Use Image in 'ggplot2'. 
+            R package version 0.3.1.
+            https://CRAN.R-project.org/package=ggimage"),
+          p(class = "hangingindent",
+            "Hadley Wickham, Romain Franlois, Lionel Henry and Kirill Muller (2021). 
+          dplyr: A Grammar of Data Manipulation. R package version 1.0.7.
+          https://CRAN.R-project.org/package=dplyr"),
+          p(class = "hangingindent",
+            "H. Wickham. ggplot2: Elegant Graphics for Data Analysis. 
+          Springer-Verlag New York, 2016."),
+          p(class = "hangingindent",
+            "Robert Carey and Neil Hatfield (2022). 
+            boastUtils: BOAST Utilities. R package version 0.1.12.3. 
+            https://github.com/EducationShinyAppTeam/boastUtils"),
+          p(class = "hangingindent",
+            "R Core Team (2021). R: A language and environment for statistical 
+          computing. R Foundation for Statistical Computing, Vienna, Austria. 
+          URL https://www.R-project.org/."),
+          p(class = "hangingindent",
+            "Tymoteusz Wolodzko (2020). extraDistr: Additional Univariate and 
+            Multivariate Distributions. R package version 1.9.1.
+            https://CRAN.R-project.org/package=extraDistr"),
+          p(class = "hangingindent",
+            "Victor Perrier, Fanny Meyer and David Granjon (2022). 
+            shinyWidgets: Custom Inputs Widgets for Shiny. 
+            R package version 0.7.0.
+            https://CRAN.R-project.org/package=shinyWidgets"),
+          p(class = "hangingindent",
+            "Winston Chang and Barbara Borges Ribeiro (2021). 
+          shinydashboard: Create Dashboards with 'Shiny'. 
+          R package version 0.7.2.
+          https://CRAN.R-project.org/package=shinydashboard"),
+        
           br(),
           br(),
           br(),
@@ -477,7 +528,7 @@ server <- function(input, output, session) {
   observeEvent(
     eventExpr = c(input$numSs, input$probSuccess, input$samPath1, input$samButton1),
     handlerExpr = {
-      trials <- rnbinom(3, size = input$numSs, prob = input$probSuccess)+ input$numSs 
+      trials <- rnbinom(3, size = input$numSs, prob = input$probSuccess) + input$numSs 
       # rnbinom get the number of failures, so adding the number of successes on it 
       # would give us the number of trials
       Path1 <- data.frame(
@@ -538,18 +589,18 @@ server <- function(input, output, session) {
           
           maxTrials <- ifelse(
             test = max(trials) > expected,
-            yes = max(trials)+1,
+            yes = max(trials) + 1,
             no = ceiling(expected) + 1
           )
 
           successVector <- c()
-          for (i in 1:maxTrials){
+          for (i in 1:maxTrials) {
             successVector <- c(successVector, 0:i)
           }
 
           points <- data.frame(
             success = successVector,
-            Trials = rep(x = 1:maxTrials, times = 2:(maxTrials+1))
+            Trials = rep(x = 1:maxTrials, times = 2:(maxTrials + 1))
           )
           
       
@@ -566,7 +617,7 @@ server <- function(input, output, session) {
               shape = 23,
               fill = "blue",
               color = "blue",
-              size = 3
+              size = 6
             ) +
             geom_step(
               data = Path1,
@@ -596,7 +647,7 @@ server <- function(input, output, session) {
             ylab(label = "Trial Number") +
             theme_bw() +
             theme(
-              text = element_text(size = 12)
+              text = element_text(size = 18)
             )
           
           if (input$samPath1 == 2){
@@ -691,7 +742,7 @@ server <- function(input, output, session) {
               shape = 23,
               fill = "blue",
               color = "blue",
-              size = 3
+              size = 6
             ) +
             scale_x_continuous(
               breaks = 0:input$numTs,
@@ -729,9 +780,22 @@ server <- function(input, output, session) {
   )
   ## set up the game page ---- 
   ### Set Up Game Variables ----
+  
   shuffledProbIDs <- sample(
     x = seq_len(nrow(bank)),
     size = nrow(bank),
+    replace = FALSE
+  )
+  
+  shuffledProbIDs_2 <- sample(
+    x = seq_len(nrow(bank2)),
+    size = nrow(bank2),
+    replace = FALSE
+  )
+  
+  shuffledProbIDs_3 <- sample(
+    x = seq_len(nrow(bank3)),
+    size = nrow(bank3),
     replace = FALSE
   )
   
@@ -740,6 +804,20 @@ server <- function(input, output, session) {
     mistakes = 0,
     id = 1,
     questionNum = shuffledProbIDs[1]
+  )
+  
+  scoring_2 <- reactiveValues(
+    correct = 0,
+    mistakes = 0,
+    id = 1,
+    questionNum = shuffledProbIDs_2[1]
+  )
+  
+  scoring_3 <- reactiveValues(
+    correct = 0,
+    mistakes = 0,
+    id = 1,
+    questionNum = shuffledProbIDs_3[1]
   )
   
   ansChoices <- eventReactive(
@@ -766,38 +844,80 @@ server <- function(input, output, session) {
     img(src = NULL, width = 30)
   })
   
-  output$Feedback <- renderUI({
-    img(src = NULL, width = 30)
-  })
+  # output$Feedback <- renderUI({
+  #   img(src = NULL, width = 30)
+  # })
   
   ### Display a question ----
-  output$question <- renderUI({
-    updateRadioGroupButtons(
-      session = session,
-      inputId = "mc1",
-      selected = character(0),
-      choices = list(
-        ansChoices()[1],
-        ansChoices()[2],
-        ansChoices()[3],
-        ansChoices()[4],
-        ansChoices()[5]
-      ),
-      checkIcon = list(
-        yes = icon("check-square")
-      ),
-      status = "game"
-    )
-    withMathJax(bank[scoring$questionNum, "question"])
-  })
+  observeEvent(
+    eventExpr = input$backSce,
+    handlerExpr = {
+      updateButton(
+        session = session,
+        inputId = "submit",
+        disabled = FALSE
+      )
+      updateButton(
+        session = session,
+        inputId = "restart",
+        disabled = FALSE
+      )
+      output$question <- renderUI({
+        updateRadioGroupButtons(
+          session = session,
+          inputId = "mc1",
+          selected = character(0),
+          choices = list(
+            ansChoices()[1],
+            ansChoices()[2],
+            ansChoices()[3],
+            ansChoices()[4],
+            ansChoices()[5]
+          ),
+          checkIcon = list(
+            yes = icon("check-square"),
+            no = icon("square") #unsure
+          ),
+          status = "textGame" 
+        )
+        if (input$backSce == 'Scenario A') {
+          withMathJax(bank[scoring$questionNum, "question"])
+        } else if (input$backSce == "Scenario B") {
+          withMathJax(bank2[scoring_2$questionNum, "question"])
+        } else if (input$backSce == "Scenario C") {
+          withMathJax(bank3[scoring_3$questionNum, "question"])
+        }
+        # withMathJax(bank[scoring$questionNum, "question"])
+      })
+      output$mark <- renderIcon()
+      output$Plot <- renderUI({
+        return(NULL)
+      })
+      # output$Feedback <- renderUI({
+      #   img(src = NULL, width = 30)
+      # })
+    }
+  )
+  # output$question <- renderUI({
+  #   updateRadioGroupButtons(
+  #     session = session,
+  #     inputId = "mc1",
+  #     selected = character(0),
+  #     choices = list(
+  #       ansChoices()[1],
+  #       ansChoices()[2],
+  #       ansChoices()[3],
+  #       ansChoices()[4],
+  #       ansChoices()[5]
+  #     ),
+  #     checkIcon = list(
+  #       yes = icon("check-square")
+  #     ),
+  #     status = "game" 
+  #   )
+  #   withMathJax(bank[scoring$questionNum, "question"])
+  # })
   
-  # ### hint Button ----
-  # ObserveEvent(
-  #   eventExpr = input$hint,
-  #   handlerExpr = {
-  #     
-  #   }
-  # )
   ### Submit Button ----
   observeEvent(
     eventExpr = input$submit,
@@ -814,24 +934,68 @@ server <- function(input, output, session) {
       )
       ### Get correct answer
       cAnswer <- bank[scoring$questionNum, "ansValue"] # problem what is scoring
+      cAnswer_2 <- bank2[scoring_2$questionNum, "ansValue"] 
+      cAnswer_3 <- bank3[scoring_3$questionNum, "ansValue"] 
       ### correct or wrong mark
-      output$mark <- renderIcon(
-        icon = ifelse(
-          test = is.null(input$mc1),
-          yes = "incorrect",
-          no = ifelse(
-            test = input$mc1 == cAnswer,
-            yes = "correct",
-            no = "incorrect"
-          )
-        ),
-        width = 50
-      )
+      if (input$backSce == 'Scenario A') {
+        output$mark <- renderIcon(
+          icon = ifelse(
+            test = is.null(input$mc1),
+            yes = "incorrect",
+            no = ifelse(
+              test = input$mc1 == cAnswer,
+              yes = "correct",
+              no = "incorrect"
+            )
+          ),
+          width = 50
+        )
+      } else if (input$backSce == "Scenario B") {
+        output$mark <- renderIcon(
+          icon = ifelse(
+            test = is.null(input$mc1),
+            yes = "incorrect",
+            no = ifelse(
+              test = input$mc1 == cAnswer_2,
+              yes = "correct",
+              no = "incorrect"
+            )
+          ),
+          width = 50
+        )
+      } else if (input$backSce == "Scenario C") {
+        output$mark <- renderIcon(
+          icon = ifelse(
+            test = is.null(input$mc1),
+            yes = "incorrect",
+            no = ifelse(
+              test = input$mc1 == cAnswer_3,
+              yes = "correct",
+              no = "incorrect"
+            )
+          ),
+          width = 50
+        )
+      }
       ### Scoring
-      if (is.null(input$mc1) || length(input$mc1) == 0 || input$mc1 != cAnswer) {
-        scoring$mistakes <- scoring$mistakes + 1
-      } else {
-        scoring$correct <- scoring$correct + 1
+      if (input$backSce == 'Scenario A') {
+        if (is.null(input$mc1) || length(input$mc1) == 0 || input$mc1 != cAnswer) {
+          scoring$mistakes <- scoring$mistakes + 1
+        } else {
+          scoring$correct <- scoring$correct + 1
+        }
+      } else if (input$backSce == "Scenario B") {
+        if (is.null(input$mc1) || length(input$mc1) == 0 || input$mc1 != cAnswer_2) {
+          scoring$mistakes <- scoring$mistakes + 1
+        } else {
+          scoring$correct <- scoring$correct + 1
+        }
+      } else if (input$backSce == "Scenario C") {
+        if (is.null(input$mc1) || length(input$mc1) == 0 || input$mc1 != cAnswer_3) {
+          scoring$mistakes <- scoring$mistakes + 1
+        } else {
+          scoring$correct <- scoring$correct + 1
+        }
       }
       
       ### Game Over Check
@@ -861,16 +1025,16 @@ server <- function(input, output, session) {
           disabled = TRUE
         )
       }
-      #### feedback ----
-      output$Feedback <- renderUI({
-        if ( any(input$mc1 == cAnswer )) {
-          HTML(paste("Congrats !", bank[scoring$questionNum, "Feedback"], 
-                     collapse = "\n"))
-        } else {
-          HTML(paste("Don't give up, try again !", 
-                     bank[scoring$questionNum, "Feedback"], collapse = "\n"))
-        }
-      })
+      # #### feedback ----
+      # output$Feedback <- renderUI({
+      #   if ( any(input$mc1 == cAnswer)) {
+      #     HTML(paste("Congrats !", bank[scoring$questionNum, "Feedback"], 
+      #                collapse = "\n"))
+      #   } else {
+      #     HTML(paste("Don't give up, try again !", 
+      #                bank[scoring$questionNum, "Feedback"], collapse = "\n"))
+      #   }
+      # })
     })
       
 
@@ -878,6 +1042,8 @@ server <- function(input, output, session) {
   observeEvent(
     eventExpr = input$nextQuestion,
     handlerExpr = {
+      
+      ######## scenario A
       if (scoring$id < nrow(bank)) {
         scoring$id <- scoring$id + 1
         scoring$questionNum <- shuffledProbIDs[scoring$id]
@@ -885,8 +1051,9 @@ server <- function(input, output, session) {
         sendSweetAlert(
           session = session,
           title = "Out of Questions",
-          type = "error",
-          text = "You've used all of the questions; shuffling the question bank."
+          type = "info",
+          text = "You've used all of the questions in this scenario, 
+          please go to another one to test yourself."
         )
         shuffledProbIDs <- sample(
           x = seq_len(nrow(bank)),
@@ -896,15 +1063,54 @@ server <- function(input, output, session) {
         scoring$id <- 1
         scoring$questionNum <- shuffledProbIDs[scoring$id]
       }
+      
+      ######## scenario B
+      if (scoring_2$id < nrow(bank2)) {
+        scoring_2$id <- scoring_2$id + 1
+        scoring_2$questionNum <- shuffledProbIDs_2[scoring_2$id]
+      } else {
+        sendSweetAlert(
+          session = session,
+          title = "Out of Questions",
+          type = "info",
+          text = "You've used all of the questions in this scenario,
+          please go to another one to test yourself."
+        )
+        shuffledProbIDs_2 <- sample(
+          x = seq_len(nrow(bank2)),
+          size = nrow(bank2),
+          replace = FALSE
+        )
+        scoring_2$id <- 1
+        scoring_2$questionNum <- shuffledProbIDs_2[scoring_2$id]
+      }
+      
+      ######## scenario C
+      if (scoring_3$id < nrow(bank3)) {
+        scoring_3$id <- scoring_3$id + 1
+        scoring_3$questionNum <- shuffledProbIDs_3[scoring_3$id]
+      } else {
+        sendSweetAlert(
+          session = session,
+          title = "Out of Questions",
+          type = "info",
+          text = "You've used all of the questions in this scenario, 
+          please go to another one to test yourself."
+        )
+        shuffledProbIDs_3 <- sample(
+          x = seq_len(nrow(bank3)),
+          size = nrow(bank3),
+          replace = FALSE
+        )
+        scoring_3$id <- 1
+        scoring_3$questionNum <- shuffledProbIDs_3[scoring_3$id]
+      }
       updateButton(
         session = session,
         inputId = "submit",
         disabled = FALSE
       )
       output$mark <- renderIcon()
-      output$Feedback <- renderUI({
-        img(src = NULL, width = 30)
-      })
       output$Plot <- renderUI({
         return(NULL)
       })
@@ -914,6 +1120,8 @@ server <- function(input, output, session) {
   observeEvent(
     eventExpr = input$restart,
     handlerExpr = {
+      scoring$id <- scoring$id + 1
+      scoring$questionNum <- shuffledProbIDs[scoring$id]
       updateButton(
         session = session,
         inputId = "submit",
@@ -931,35 +1139,344 @@ server <- function(input, output, session) {
         replace = FALSE
       )
       output$mark <- renderIcon()
-      # scoring$correct <- 0
+      scoring$correct <- 0
       scoring$mistakes <- 0
-      output$Feedback <- renderUI({
-        img(src = NULL, width = 30)
-      })
+      # output$Feedback <- renderUI({
+      #   img(src = NULL, width = 30)
+      # })
     })
   
   ### display hint ----
   observeEvent(
     eventExpr = input$hint,
     handlerExpr = {
-      output$Plot <- renderPlot({
+      if (input$backSce == 'Scenario A') {
+        output$Plot <- renderPlot({
           if ( bank[scoring$questionNum, "ansValue"] == 'Binomial') {
-            plot(0:5, dbinom(0:5, size = 8, prob = 0.2), type = "h", ylab = "")
+            ggplot() +
+              stat_function(
+                fun = dbinom,
+                geom = 'bar',
+                args = list(size = 8 , prob = 0.2),
+                xlim = c(0, 8),
+                na.rm = TRUE,
+                n = 9,
+                fill = "skyblue"
+              ) +
+              theme_bw() +
+              ylab(label = "prob. of a specific number of red balls") +
+              xlab(label = "number of red balls") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
+          } else if ( bank[scoring$questionNum, "ansValue"] == 'Negative Binomial') {
+            ggplot() +
+              stat_function(
+                fun = dnbinom,
+                geom = 'bar',
+                args = list(size = 3 , prob = 0.2),
+                xlim = c(0, 55),
+                na.rm = TRUE,
+                n = 56,
+                fill = "skyblue"
+              ) +
+              theme_bw() +
+              ylab(label = "prob. of seeing three red balls in a 
+                   specific trial number") +
+              xlab(label = "number of balls drawn out before we get 
+                   three red balls") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
+          } else if ( bank[scoring$questionNum, "ansValue"] == 'Geometric') {
+            ggplot() +
+              stat_function(
+                fun = dgeom,
+                geom = 'bar',
+                args = list(prob = 0.2),
+                xlim = c(0, 33),
+                na.rm = TRUE,
+                n = 34,
+                fill = "skyblue"
+              ) +
+              theme_bw() + 
+              ylab(label = "prob. of seeing the first red ball in a specific
+                   trial number") +
+              xlab(label = "number of balls drawn out before we get the first 
+                   red ball.") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
+          } else if ( bank[scoring$questionNum, "ansValue"] == 'Bernoulli') {
+            ggplot() +
+              stat_function(
+                fun = dbern,
+                geom = 'line',
+                args = list(prob = 0.2),
+                xlim = c(0, 35),
+                na.rm = TRUE,
+                n = 36,
+                color = "skyblue"
+              ) +
+              theme_bw() +
+              ylab(label = "prob. of getting a red ball in one trial") +
+              xlab(label = "number of times drawn out") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              )
+          } else if ( bank[scoring$questionNum, "ansValue"] == 'Hypergeometric') {
+            ggplot() +
+              stat_function(
+                fun = dhyper,
+                geom = 'bar',
+                args = list(m = 6, n = 24, k = 8),
+                xlim = c(0, 6),
+                na.rm = TRUE,
+                n = 7,
+                fill = "skyblue"
+              ) +
+              theme_bw() +
+              ylab(label = "prob. of getting specific amount of red balls out 
+                   of eight draws") +
+              xlab(label = "Number of red balls drawn") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
           }
-          if ( bank[scoring$questionNum, "ansValue"] == 'Negative Binomial') {
-            plot(dnbinom(0:30, size = 3, prob = 0.2), type = 'h', ylab ="")
+        })
+      } 
+      if (input$backSce == "Scenario B") {
+        output$Plot <- renderPlot({
+          if ( bank2[scoring_2$questionNum, "ansValue"] == 'Binomial') {
+            ggplot() +
+              stat_function(
+                fun = dbinom,
+                geom = 'bar',
+                args = list(size = 7, prob = 0.1),
+                xlim = c(0, 8),
+                na.rm = TRUE,
+                n = 9,
+                fill = "skyblue"
+              ) +
+              theme_bw() +
+              ylab(label = "prob. of that amount of vehicles order Big Mac in 7 
+                   cars") +
+              xlab(label = "number of cars order Big Mac") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
+          } else if ( bank2[scoring_2$questionNum, "ansValue"] == 'Negative Binomial') {
+            ggplot() +
+              stat_function(
+                fun = dnbinom,
+                geom = 'bar',
+                args = list(size = 3, prob = 0.1),
+                xlim = c(0, 95),
+                na.rm = TRUE,
+                n = 96,
+                fill = "skyblue"
+              ) +
+              theme_bw() +
+              ylab(label = "prob. of 3 cars order Big Mac in a fixed number of 
+                   vehicles") +
+              xlab(label = "number of vehicles") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
+          } else if ( bank2[scoring_2$questionNum, "ansValue"] == 'Geometric') {
+            ggplot() +
+              stat_function(
+                fun = dgeom,
+                geom = 'bar',
+                args = list(prob = 0.1),
+                xlim = c(0, 45),
+                na.rm = TRUE,
+                n = 46,
+                fill = "skyblue"
+              ) +
+              theme_bw() + 
+              ylab(label = "prob. of seeing the first car order Big Mac in a 
+                   fixed number of vehicles") +
+              xlab(label = "number of vehicles") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
+          } else if ( bank2[scoring_2$questionNum, "ansValue"] == 'Bernoulli') {
+            ggplot() +
+              stat_function(
+                fun = dbern,
+                geom = 'line',
+                args = list(prob = 0.1),
+                xlim = c(0, 20),
+                na.rm = TRUE,
+                n = 21,
+                color = "skyblue"
+              ) +
+              theme_bw() +
+              ylab(label = "prob. of seeing a car order Big Mac") +
+              xlab(label = "number of vehicles") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
+          } else if ( bank2[scoring_2$questionNum, "ansValue"] == 'Hypergeometric') {
+            ggplot() +
+              stat_function(
+                fun = dhyper,
+                geom = 'bar',
+                args = list(m = 5, n = 2, k = 4),
+                xlim = c(0, 6),
+                na.rm = TRUE,
+                n = 7,
+                fill = "skyblue"
+              ) +
+              theme_bw() +
+              ylab(label = "prob. of seeing a fixed number of cars order Big Mac
+                   in four vehicles") +
+              xlab(label = "Number of cars order Big Mac") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
           }
-          if ( bank[scoring$questionNum, "ansValue"] == 'Geometric') {
-            plot(dgeom(0:30, 0.2), type = 'h', ylab = "")
+        })
+      } 
+      if (input$backSce == "Scenario C") {
+        output$Plot <- renderPlot({
+          if ( bank3[scoring_3$questionNum, "ansValue"] == 'Binomial') {
+            ggplot() +
+              stat_function(
+                fun = dbinom,
+                geom = 'bar',
+                args = list(size = 10, prob = 0.4),
+                xlim = c(0, 10),
+                na.rm = TRUE,
+                n = 11,
+                fill = "skyblue"
+              ) +
+              theme_bw() +
+              ylab(label = "prob. of a specific number of type A blood donors 
+                   in 10 donors") +
+              xlab(label = "number of type A blood donors") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
+          } else if ( bank3[scoring_3$questionNum, "ansValue"] == 'Negative Binomial') {
+            ggplot() +
+              stat_function(
+                fun = dnbinom,
+                geom = 'bar',
+                args = list(size = 4, prob = 0.4),
+                xlim = c(0, 25),
+                na.rm = TRUE,
+                n = 26,
+                fill = "skyblue"
+              ) +
+              theme_bw() +
+              ylab(label = "prob. of 4 type A blood donors go to the station") +
+              xlab(label = "number of donors") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
+          } else if ( bank3[scoring_3$questionNum, "ansValue"] == 'Geometric') {
+            ggplot() +
+              stat_function(
+                fun = dgeom,
+                geom = 'bar',
+                args = list(prob = 0.4),
+                xlim = c(0, 18),
+                na.rm = TRUE,
+                n = 19,
+                fill = "skyblue"
+              ) +
+              theme_bw() + 
+              ylab(label = "prob. of the first type A blood donor go to the 
+                   station") +
+              xlab(label = "number of donors") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
+          } else if ( bank3[scoring_3$questionNum, "ansValue"] == 'Bernoulli') {
+            ggplot() +
+              stat_function(
+                fun = dbern,
+                geom = 'line',
+                args = list(prob = 0.4),
+                xlim = c(0, 20),
+                na.rm = TRUE,
+                n = 21,
+                color = "skyblue"
+              ) +
+              theme_bw() +
+              ylab(label = "prob. of a donor has type A blood") +
+              xlab(label = "number of donors") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
+          } else if ( bank3[scoring_3$questionNum, "ansValue"] == 'Hypergeometric') {
+            ggplot() +
+              stat_function(
+                fun = dhyper,
+                geom = 'bar',
+                args = list(m = 5, n = 7, k = 5),
+                xlim = c(0, 6),
+                na.rm = TRUE,
+                n = 7,
+                fill = "skyblue"
+              ) +
+              theme_bw() +
+              ylab(label = "prob. of seeing a specific number of type A blood
+                   donors in 5 donors.") +
+              xlab(label = "Number of type A blood donors") +
+              scale_x_continuous(
+                expand = expansion(mult = c(1,2), add = 0)
+              ) + 
+              scale_y_continuous(
+                expand = expansion(mult = 0, add = c(0,0.05))
+              ) 
           }
-          if ( bank[scoring$questionNum, "ansValue"] == 'Bernoulli') {
-            plot(dbern(0:30, prob = 0.2), type = "o", ylab = "")
-          }
-          if ( bank[scoring$questionNum, "ansValue"] == 'Hypergeometric') {
-            plot(dhyper(0:5, 5, 25, 8), type = "h", ylab = "")
-          }
+        })
       }
-      )
     }
   )
   
