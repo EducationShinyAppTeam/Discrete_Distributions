@@ -447,42 +447,50 @@ ui <- list(
           h2("References"),
           p(class = "hangingindent",
             "Eric Bailey (2022). shinyBS: Twitter Bootstrap Components for Shiny.
-          R package version 0.61.1. 
-          https://CRAN.R-project.org/package=shinyBS"),
+          (v 0.61.1) [R package]. Available from 
+          https://CRAN.R-project.org/package=shinyBS"
+          ),
           p(class = "hangingindent",
             "Guangchuang Yu (2022). ggimage: Use Image in 'ggplot2'. 
-            R package version 0.3.1.
-            https://CRAN.R-project.org/package=ggimage"),
+            (v 0.3.1.) [R package]. Available from 
+            https://CRAN.R-project.org/package=ggimage"
+            ),
           p(class = "hangingindent",
             "Hadley Wickham, Romain Franlois, Lionel Henry and Kirill Muller (2021). 
-          dplyr: A Grammar of Data Manipulation. R package version 1.0.7.
-          https://CRAN.R-project.org/package=dplyr"),
+          dplyr: A Grammar of Data Manipulation. (v 1.0.7.) [R package]. 
+          Available from https://CRAN.R-project.org/package=dplyr"
+          ),
           p(class = "hangingindent",
-            "H. Wickham. ggplot2: Elegant Graphics for Data Analysis. 
-          Springer-Verlag New York, 2016."),
+            "Wickham, H. (2016). ggplot2: Elegant graphics for data analysis.
+            Springer-Verlag:New York. (v 3.3.6) [R package]. Available from
+            https://ggplot2.tidyverse.org"
+            ),
           p(class = "hangingindent",
             "Robert Carey and Neil Hatfield (2022). 
-            boastUtils: BOAST Utilities. R package version 0.1.12.3. 
-            https://github.com/EducationShinyAppTeam/boastUtils"),
+            boastUtils: BOAST Utilities. (v 0.1.12.3.)[R package] 
+            Available from https://github.com/EducationShinyAppTeam/boastUtils"
+            ),
           p(class = "hangingindent",
             "R Core Team (2021). R: A language and environment for statistical 
           computing. R Foundation for Statistical Computing, Vienna, Austria. 
-          URL https://www.R-project.org/."),
+          [R package] Available from https://www.R-project.org/."
+          ),
           p(class = "hangingindent",
             "Tymoteusz Wolodzko (2020). extraDistr: Additional Univariate and 
-            Multivariate Distributions. R package version 1.9.1.
-            https://CRAN.R-project.org/package=extraDistr"),
+            Multivariate Distributions.(v 1.9.1.)
+            Available from https://CRAN.R-project.org/package=extraDistr"
+            ),
           p(class = "hangingindent",
             "Victor Perrier, Fanny Meyer and David Granjon (2022). 
-            shinyWidgets: Custom Inputs Widgets for Shiny. 
-            R package version 0.7.0.
-            https://CRAN.R-project.org/package=shinyWidgets"),
+            shinyWidgets: Custom Inputs Widgets for Shiny. (v 0.7.0.)[R package]
+            Available from https://CRAN.R-project.org/package=shinyWidgets"
+            ),
           p(class = "hangingindent",
             "Winston Chang and Barbara Borges Ribeiro (2021). 
           shinydashboard: Create Dashboards with 'Shiny'. 
-          R package version 0.7.2.
-          https://CRAN.R-project.org/package=shinydashboard"),
-        
+          (v 0.7.2.)[R package]
+          Available from https://CRAN.R-project.org/package=shinydashboard"
+          ),
           br(),
           br(),
           br(),
@@ -1042,7 +1050,6 @@ server <- function(input, output, session) {
   observeEvent(
     eventExpr = input$nextQuestion,
     handlerExpr = {
-      
       ######## scenario A
       if (scoring$id < nrow(bank)) {
         scoring$id <- scoring$id + 1
@@ -1105,6 +1112,7 @@ server <- function(input, output, session) {
         scoring_3$id <- 1
         scoring_3$questionNum <- shuffledProbIDs_3[scoring_3$id]
       }
+      
       updateButton(
         session = session,
         inputId = "submit",
