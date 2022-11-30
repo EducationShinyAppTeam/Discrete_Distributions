@@ -1134,30 +1134,105 @@ server <- function(input, output, session) {
   observeEvent(
     eventExpr = input$restart,
     handlerExpr = {
-      scoring$id <- scoring$id + 1
-      scoring$questionNum <- shuffledProbIDs[scoring$id]
-      updateButton(
-        session = session,
-        inputId = "submit",
-        disabled = FALSE
-      )
-      updateButton(
-        session = session,
-        inputId = "nextQuestion",
-        disabled = FALSE
-      )
-      
-      shuffledProbIDs <- sample(
-        x = seq_len(nrow(bank)),
-        size = nrow(bank),
-        replace = FALSE
-      )
-      output$mark <- renderIcon()
-      scoring$correct <- 0
-      scoring$mistakes <- 0
-      # output$Feedback <- renderUI({
-      #   img(src = NULL, width = 30)
-      # })
+      ### scenario A
+      if (scoring$id < nrow(bank)) {
+        scoring$id <- scoring$id + 1
+        scoring$questionNum <- shuffledProbIDs[scoring$id]
+        updateButton(
+          session = session,
+          inputId = "submit",
+          disabled = FALSE
+        )
+        updateButton(
+          session = session,
+          inputId = "nextQuestion",
+          disabled = FALSE
+        )
+        shuffledProbIDs <- sample(
+          x = seq_len(nrow(bank)),
+          size = nrow(bank),
+          replace = FALSE
+        )
+        output$mark <- renderIcon()
+        scoring$correct <- 0
+        scoring$mistakes <- 0
+      } else {
+        scoring$id <- 1
+        output$mark <- renderIcon()
+        scoring$correct <- 0
+        scoring$mistakes <- 0
+        updateButton(
+          session = session,
+          inputId = "submit",
+          disabled = FALSE
+        )
+      }
+      ### scenario B
+      if (scoring_2$id < nrow(bank2)) {
+        scoring_2$id <- scoring_2$id + 1
+        scoring_2$questionNum <- shuffledProbIDs[scoring_2$id]
+        updateButton(
+          session = session,
+          inputId = "submit",
+          disabled = FALSE
+        )
+        updateButton(
+          session = session,
+          inputId = "nextQuestion",
+          disabled = FALSE
+        )
+        shuffledProbIDs <- sample(
+          x = seq_len(nrow(bank2)),
+          size = nrow(bank2),
+          replace = FALSE
+        )
+        output$mark <- renderIcon()
+        scoring$correct <- 0
+        scoring$mistakes <- 0
+      } else {
+        scoring_2$id <- 1
+        output$mark <- renderIcon()
+        scoring$correct <- 0
+        scoring$mistakes <- 0
+        updateButton(
+          session = session,
+          inputId = "submit",
+          disabled = FALSE
+        )
+      }
+      ### scenario C
+      if (scoring_3$id < nrow(bank3)) {
+        scoring_3$id <- scoring_3$id + 1
+        scoring_3$questionNum <- shuffledProbIDs[scoring_3$id]
+        updateButton(
+          session = session,
+          inputId = "submit",
+          disabled = FALSE
+        )
+        updateButton(
+          session = session,
+          inputId = "nextQuestion",
+          disabled = FALSE
+        )
+        shuffledProbIDs <- sample(
+          x = seq_len(nrow(bank3)),
+          size = nrow(bank3),
+          replace = FALSE
+        )
+        output$mark <- renderIcon()
+        scoring$correct <- 0
+        scoring$mistakes <- 0
+      } else {
+        scoring_3$id <- 1
+        output$mark <- renderIcon()
+        scoring$correct <- 0
+        scoring$mistakes <- 0
+        updateButton(
+          session = session,
+          inputId = "submit",
+          disabled = FALSE
+        )
+      }
     })
   
   ### display hint ----
