@@ -102,7 +102,13 @@ ui <- list(
             2022. Special Thanks to Neil for being incredibly 
             helpful with programming issues.",
             br(),
-            div(class = "updated", "Last Update: 11/17/2022 by YY.")
+            br(),
+            "Cite this app as:",
+            br(),
+            citeApp(),
+            br(),
+            br(),
+            div(class = "updated", "Last Update: 11/30/2022 by YY.")
           )
         ),
         #### Set up the Prerequisites Page ----
