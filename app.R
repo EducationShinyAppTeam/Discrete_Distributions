@@ -1156,6 +1156,9 @@ server <- function(input, output, session) {
         output$mark <- renderIcon()
         scoring$correct <- 0
         scoring$mistakes <- 0
+        output$Plot <- renderUI({
+          return(NULL)
+        })
       } else {
         scoring$id <- 1
         output$mark <- renderIcon()
@@ -1166,6 +1169,9 @@ server <- function(input, output, session) {
           inputId = "submit",
           disabled = FALSE
         )
+        output$Plot <- renderUI({
+          return(NULL)
+        })
       }
       ### scenario B
       if (scoring_2$id < nrow(bank2)) {
@@ -1189,6 +1195,9 @@ server <- function(input, output, session) {
         output$mark <- renderIcon()
         scoring$correct <- 0
         scoring$mistakes <- 0
+        output$Plot <- renderUI({
+          return(NULL)
+        })
       } else {
         scoring_2$id <- 1
         output$mark <- renderIcon()
@@ -1199,6 +1208,9 @@ server <- function(input, output, session) {
           inputId = "submit",
           disabled = FALSE
         )
+        output$Plot <- renderUI({
+          return(NULL)
+        })
       }
       ### scenario C
       if (scoring_3$id < nrow(bank3)) {
@@ -1222,6 +1234,9 @@ server <- function(input, output, session) {
         output$mark <- renderIcon()
         scoring$correct <- 0
         scoring$mistakes <- 0
+        output$Plot <- renderUI({
+          return(NULL)
+        })
       } else {
         scoring_3$id <- 1
         output$mark <- renderIcon()
@@ -1232,6 +1247,9 @@ server <- function(input, output, session) {
           inputId = "submit",
           disabled = FALSE
         )
+        output$Plot <- renderUI({
+          return(NULL)
+        })
       }
     })
   
