@@ -1329,9 +1329,9 @@ server <- function(input, output, session) {
                 fun = dbern,
                 geom = 'line',
                 args = list(prob = 0.2),
-                xlim = c(0, 35),
+                xlim = c(0, 1),
                 na.rm = TRUE,
-                n = 36,
+                n = 2, 
                 color = "skyblue"
               ) +
               theme_bw() +
@@ -1438,9 +1438,9 @@ server <- function(input, output, session) {
                 fun = dbern,
                 geom = 'line',
                 args = list(prob = 0.1),
-                xlim = c(0, 20),
+                xlim = c(0, 1),
                 na.rm = TRUE,
-                n = 21,
+                n = 2,
                 color = "skyblue"
               ) +
               theme_bw() +
@@ -1546,9 +1546,9 @@ server <- function(input, output, session) {
                 fun = dbern,
                 geom = 'line',
                 args = list(prob = 0.4),
-                xlim = c(0, 20),
+                xlim = c(0, 1),
                 na.rm = TRUE,
-                n = 21,
+                n = 2,
                 color = "skyblue"
               ) +
               theme_bw() +
