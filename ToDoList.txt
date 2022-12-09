@@ -1,0 +1,7 @@
+# Things Needed for This Version
+1. need to change the pictures in game page (replace a man falling from the tree with a man going beyond a cliff)
+2. there is a coding error in explore page -- random trials. When the number of success equals to 1 and success probability is larger than 0.3, sometimes 
+it would get the error that "the sign (plus and minus) of 'by' parameter is wrong'. The error is in the ggplot, but i don't know which line of codes cause this problem.
+
+# Ideas for Future Development
+Now, it only includes five discrete distributions except for Poisson distribution. Maybe it is a good idea to add Poisson distribution into this app.

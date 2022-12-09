@@ -6,7 +6,6 @@ library(shinyWidgets)
 library(boastUtils)
 library(ggplot2)
 library(stats)
-# library(statip)
 library(dplyr)
 library(ggimage)
 library(extraDistr)
@@ -17,8 +16,7 @@ library(extraDistr)
 bank <- read.csv("questionbank.csv")
 bank2 <- read.csv("questionbank2.csv")
 bank3 <- read.csv("questionbank3.csv")
-# bank$Feedback <- as.character(bank$Feedback)
-# bank2$Feedback <- as.character(bank2$Feedback)
+
 
 
 # Define UI for App ----
@@ -406,8 +404,6 @@ ui <- list(
                   individual = FALSE
                 ),
                 uiOutput("mark"),
-                # br(),
-                # uiOutput("Feedback"),
                 br(),
                 bsButton(
                   inputId = "submit",
@@ -561,63 +557,65 @@ server <- function(input, output, session) {
         )
       Path1$cSuccess <- cumsum(Path1$success)
       
+      Path2 <- data.frame(
+        trial = 1:trials[2],
+        success = rep(0, trials[2])
+      )
+      
+      successes2 <- c(sort(sample(1:(nrow(Path2) - 1), 
+                                  size = (input$numSs - 1))), nrow(Path2))
+      
+      Path2 <- Path2 %>%
+        mutate(
+          success = if_else(
+            condition = trial %in% successes2,
+            true = 1,
+            false = 0
+          )
+        )
+      Path2$cSuccess <- cumsum(Path2$success)
+      
+      Path3 <- data.frame(
+        trial = 1:trials[3],
+        success = rep(0, trials[3])
+      )
+      
+      successes3 <- c(sort(sample(1:(nrow(Path3) - 1), size = (input$numSs - 1))), nrow(Path3))
+      
+      Path3 <- Path3 %>%
+        mutate(
+          success = if_else(
+            condition = trial %in% successes3,
+            true = 1,
+            false = 0
+          )
+        )
+      Path3$cSuccess <- cumsum(Path3$success)
+      
+      expected <- input$numSs/input$probSuccess
+      
+      maxTrials <- ifelse(
+        test = max(trials) > expected,
+        yes = max(trials) + 1,
+        no = ceiling(expected) + 1
+      )
+      
+      successVector <- c()
+      for (i in 1:maxTrials) {
+        successVector <- c(successVector, 0:i)
+      }
+      
+      points <- data.frame(
+        success = successVector,
+        Trials = rep(x = 1:maxTrials, times = 2:(maxTrials + 1))
+      )
+      # print(Path1)
+      
+      # there is an error about sign of 'by' parameter when success number equals
+      # to one and probability is larger than 0.03. That's an important part you 
+      # need to fix. I really appreciate for your efforts!
       output$trialsPlot <- renderPlot(
         expr = {
-          
-          Path2 <- data.frame(
-            trial = 1:trials[2],
-            success = rep(0, trials[2])
-          )
-          
-          successes2 <- c(sort(sample(1:(nrow(Path2) - 1), 
-                                      size = (input$numSs - 1))), nrow(Path2))
-          
-          Path2 <- Path2 %>%
-            mutate(
-              success = if_else(
-                condition = trial %in% successes2,
-                true = 1,
-                false = 0
-              )
-            )
-          Path2$cSuccess <- cumsum(Path2$success)
-          
-          Path3 <- data.frame(
-            trial = 1:trials[3],
-            success = rep(0, trials[3])
-          )
-          
-          successes3 <- c(sort(sample(1:(nrow(Path3) - 1), size = (input$numSs - 1))), nrow(Path3))
-          
-          Path3 <- Path3 %>%
-            mutate(
-              success = if_else(
-                condition = trial %in% successes3,
-                true = 1,
-                false = 0
-              )
-            )
-          Path3$cSuccess <- cumsum(Path3$success)
-          
-          expected <- input$numSs/input$probSuccess
-          
-          maxTrials <- ifelse(
-            test = max(trials) > expected,
-            yes = max(trials) + 1,
-            no = ceiling(expected) + 1
-          )
-
-          successVector <- c()
-          for (i in 1:maxTrials) {
-            successVector <- c(successVector, 0:i)
-          }
-
-          points <- data.frame(
-            success = successVector,
-            Trials = rep(x = 1:maxTrials, times = 2:(maxTrials + 1))
-          )
-          
-      
           a <- ggplot(
             data = points
             ) +
@@ -635,8 +633,9 @@ server <- function(input, output, session) {
             ) +
             geom_step(
               data = Path1,
-              aes(x = cSuccess, y = trial),
+              mapping = aes(x = cSuccess, y = trial),
               color = psuPalette[1],
+              na.rm = TRUE,
               size = 1
             ) +
             geom_image(
@@ -653,7 +652,7 @@ server <- function(input, output, session) {
               limits = c(0,input$numSs)
             ) +
             scale_y_continuous(
-              breaks = c(1, seq(from = 5,to = maxTrials, by = 5)),
+              breaks = c(1, seq(from = 5, to = maxTrials, by = 5)),
               minor_breaks = seq(1, maxTrials, 1),
               expand = expansion(mult = c(0,0.05), add = c(1, 0))
             ) +
@@ -664,34 +663,39 @@ server <- function(input, output, session) {
               text = element_text(size = 18)
             )
           
-          if (input$samPath1 == 2){
+          if ( input$samPath1 == 2 ) {
             a <- a + geom_step(
               data = Path2,
-              aes(x = cSuccess, y = trial),
+              mapping = aes(x = cSuccess, y = trial),
+              na.rm = TRUE,
               color = psuPalette[2],
               size = 1,
-              position = position_nudge( x= 0.02, y = 0.02)
+              position = position_nudge( x = 0.02, y = 0.02)
             )
           }
           
-          if (input$samPath1 == 3){
+          if ( input$samPath1 == 3 ) {
             a <- a + geom_step(
               data = Path2,
-              aes(x = cSuccess, y = trial),
+              mapping = aes(x = cSuccess, y = trial),
+              na.rm = TRUE,
               color = psuPalette[2],
               size = 1,
-              position = position_nudge( x= 0.02, y = 0.02) 
+              position = position_nudge( x = 0.02, y = 0.02) 
             ) + 
               geom_step(
                 data = Path3,
-                aes(x = cSuccess, y = trial),
+                mapping = aes(x = cSuccess, y = trial),
+                na.rm = TRUE,
                 color = psuPalette[3],
                 size = 1,
-                position = position_nudge( x= -0.02, y = -0.02) 
+                position = position_nudge( x = -0.02, y = -0.02) 
               )
           }
           a
-        }
+        },
+        alt = "Here is the graph of sample space which includes sample path and 
+        expected value"
       )
     }
   )
@@ -778,6 +782,7 @@ server <- function(input, output, session) {
                                aes_string(x = "trial", 
                                           y = as.name(paste0("sumSuccess",i))),
                                color = psuPalette[i], 
+                               na.rm = TRUE,
                                position = position_nudge(
                                  x = if_else( 
                                    i == 1, 0, if_else(i==2, 0.02, -0.02)
@@ -788,7 +793,9 @@ server <- function(input, output, session) {
                                size = 1)
           }
           b
-        }
+        },
+        alt = "Here is the graph of sample space which includes sample path and 
+        expected value"
       )
     }
   )
@@ -901,36 +908,14 @@ server <- function(input, output, session) {
         } else if (input$backSce == "Scenario C") {
           withMathJax(bank3[scoring_3$questionNum, "question"])
         }
-        # withMathJax(bank[scoring$questionNum, "question"])
       })
       output$mark <- renderIcon()
       output$Plot <- renderUI({
         return(NULL)
       })
-      # output$Feedback <- renderUI({
-      #   img(src = NULL, width = 30)
-      # })
     }
   )
-  # output$question <- renderUI({
-  #   updateRadioGroupButtons(
-  #     session = session,
-  #     inputId = "mc1",
-  #     selected = character(0),
-  #     choices = list(
-  #       ansChoices()[1],
-  #       ansChoices()[2],
-  #       ansChoices()[3],
-  #       ansChoices()[4],
-  #       ansChoices()[5]
-  #     ),
-  #     checkIcon = list(
-  #       yes = icon("check-square")
-  #     ),
-  #     status = "game" 
-  #   )
-  #   withMathJax(bank[scoring$questionNum, "question"])
-  # })
+
   
   ### Submit Button ----
   observeEvent(
@@ -1039,16 +1024,6 @@ server <- function(input, output, session) {
           disabled = TRUE
         )
       }
-      # #### feedback ----
-      # output$Feedback <- renderUI({
-      #   if ( any(input$mc1 == cAnswer)) {
-      #     HTML(paste("Congrats !", bank[scoring$questionNum, "Feedback"], 
-      #                collapse = "\n"))
-      #   } else {
-      #     HTML(paste("Don't give up, try again !", 
-      #                bank[scoring$questionNum, "Feedback"], collapse = "\n"))
-      #   }
-      # })
     })
       
 
