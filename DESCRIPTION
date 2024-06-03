@@ -3,7 +3,8 @@ ShortName: Discrete Distribution
 Date: 2021-07-26
 Lifecycle: experimental
 Authors@R: c(
-    person(given = "Yijun", family = "Yao", email = "ymy5178@psu.edu", role = c("aut", "cre"))
+    person(given = "Yijun", family = "Yao", email = "ymy5178@psu.edu", role = c("aut", "cre")),
+    person(given = "Nathan", family = "Pechulis", role = c("ctb"))
   )
 Chapter: Chapter 4
 Description: This app is focused on discrete distributions. It also explores sample spaces and sample paths of different distributions.

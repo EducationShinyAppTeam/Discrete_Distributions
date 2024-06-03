@@ -64,10 +64,10 @@ ui <- list(
           tabName = "overview",
           withMathJax(),
           h1("Discrete Distributions"), # This should be the full name.
-          p("This app would focus on Bernoulli, Binomial, Hypergeometric, 
-            Geometric and Negative Binomial distribution.
-            This app would explore different sample spaces and sample paths. 
-            Also, it would help users to choose suitable distribution in actual
+          p("This app will focus on Bernoulli, Binomial, Hypergeometric, 
+            Geometric and Negative Binomial distributions.
+            This app will explore different sample spaces and sample paths. 
+            Also, it will help users to choose the suitable distribution in an actual
             life scenario and show the Probability Mass Function graphs about 
             that distribution."),
           h2("Instructions"),
@@ -75,7 +75,7 @@ ui <- list(
             tags$li("Basic information about these distributions are introduced 
                     in the Prerequisites Page."),
             tags$li("In the Exploration Page, users can explore different sample 
-                    spaces and sample paths by changing the number of Success
+                    spaces and sample paths by changing the number of Successes
                     or Trials and the probability of success."),
             tags$li("In the Game Page, an actual life scenario is given. Users 
                     need to choose the suitable distribution.")
@@ -97,8 +97,9 @@ ui <- list(
           h2("Acknowledgements"),
           p(
             "This version of the app was developed and coded by Yijun Yao in 
-            2022. Special Thanks to Neil for being incredibly 
-            helpful with programming issues.",
+            2022. The app was further updated by Nathan Pechulis in June 2024.
+            Special thanks to Neil for being incredibly helpful with programming 
+            issues.",
             br(),
             br(),
             "Cite this app as:",
@@ -106,7 +107,7 @@ ui <- list(
             citeApp(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 11/30/2022 by YY.")
+            div(class = "updated", "Last Update: 6/3/2024 by NP.")
           )
         ),
         #### Set up the Prerequisites Page ----
@@ -124,7 +125,7 @@ ui <- list(
             p(
               tags$strong("Description: "), "A Bernoulli variable, X, is a 
               discrete variable which has only two outcomes -- 1 and 0. 
-              p is the probability of 1.",
+              p is the probability of 1 (success).",
               br(),
               tags$strong("Notation: "), "X ~ Bern(p)",
               br(),
@@ -212,18 +213,18 @@ ui <- list(
             collapsed = FALSE,
             width = '100%',
             p(
-              "For the", tags$strong("binomial"), "and", 
-              tags$strong("hypergeometric"),
-              ": the number of trials is ", strong("fixed and known"), 
-              ", and the number of successes is the ",
+              "For the", tags$strong("Binomial"), "and", 
+              tags$strong("Hypergeometric"), 
+              "distributions: the number of trials is ", strong("fixed and known"), 
+              "while the number of successes is the ",
               strong("random variable"), "of interest.",
               br(),
               br(),
-              "For the", tags$strong("geometric"), "and", 
-              tags$strong("negative binomial"), 
-              ": the number of trials is the ", 
+              "For the", tags$strong("Geometric"), "and", 
+              tags$strong("Negative Binomial"), 
+              "distributions: the number of trials is the ", 
               strong("random variable"), 
-              "of interest and the number of successes is", 
+              "of interest while the number of successes is", 
               strong("fixed and known. ")
             )
           )
@@ -242,9 +243,9 @@ ui <- list(
               title = "Random: Trials",
               h3("Instructions"),
               p("For this part, the Trial Number is what we are interested in 
-                and Success Number is fixed."),
-              p("So, ", strong("Geometric"), "distribution and ", 
-                strong("Negative Binomial"), "distribution are suitable."),
+                and the Success Number is fixed."),
+              p("So, ", strong("Geometric"), "distributions and ", 
+                strong("Negative Binomial"), "distributions are suitable."),
               br(),
               sidebarLayout(
                 sidebarPanel(
@@ -283,12 +284,12 @@ ui <- list(
                   plotOutput(outputId = "trialsPlot", width = "100%"),
                   p(strong("Key: ")),
                   p(img(src = "black dot.webp", width = "30px"),
-                        "Black dots represents sample space."),
+                        "Black dots represent the sample space."),
                   p(img(src = "steplines.jpg", width = "30px"),
-                    "Each line represents one sample path which is 
-                    influenced by the success number and probability of success"),
+                    "Each line represents one sample path, which is 
+                    influenced by the success number and probability of success."),
                   p(img(src = "rhombus.webp", width = "20px"),
-                    " The blue diamond represents expected value")
+                    " The blue diamond represents the expected value.")
                 )
               )
             ),
@@ -297,8 +298,8 @@ ui <- list(
               h3("Instructions"),
               p("For this part, the Success number is what we are interested in
                 and the Trial Number is fixed."),
-              p("So, ", strong("Bernoulli"), "distribution and ", strong(
-                "Binomial"), "distribution are suitable."),
+              p("So, ", strong("Bernoulli"), "distributions and ", strong(
+                "Binomial"), "distributions are suitable."),
               br(),
               sidebarLayout(
                 sidebarPanel(
@@ -337,12 +338,12 @@ ui <- list(
                   plotOutput(outputId = "successPlot", width = "100%"),
                   p(strong("Key: ")),
                   p(img(src = "black dot.webp", width = "30px"),
-                    "Black dots represents sample space."),
+                    "Black dots represent the sample space."),
                   p(img(src = "steplines.jpg", width = "30px"),
-                    "Each line represents one sample path which is 
-                    influenced by the success number and probability of success"),
+                    "Each line represents one sample path, which is 
+                    influenced by the success number and probability of success."),
                   p(img(src = "rhombus.webp", width = "20px"),
-                    " The blue diamond represents expected value")
+                    " The blue diamond represents the expected value.")
                 )
               )
             )
@@ -352,11 +353,13 @@ ui <- list(
         tabItem(
           tabName = "game",
           withMathJax(),
-          h2("Choosing distribution game"),
+          h2("Choosing Distributions Game"),
           p(strong("Instructions: "), "For each 
               question, choose the most suitable distribution for that situation.
               The graph of the probability mass function will appear as a hint 
-            when you click the 'show PMF' button."),
+              when you click the 'Hint' button. The game is won when you get 5
+              correct answers but keep in mind that the man will fall off of the 
+              tree after 4 incorrect guesses and the game will be over!"),
           selectInput(
             inputId = "backSce", label = "Background Scenario",
             choices = c('Scenario A', 'Scenario B', 'Scenario C'),
@@ -364,17 +367,17 @@ ui <- list(
           ),
           conditionalPanel(
             condition = "input.backSce == 'Scenario A'",
-              p("There are 30 balls in a box and 6 of them are red.")
+              p(tags$strong("There are 30 balls in a box and 6 of them are red."))
           ),
           conditionalPanel(
             condition = "input.backSce == 'Scenario B'",
-              p("In Pennsylvania, 10% of vehicles order a Big Mac in the 
-                drive thru window of McDonalds.")
+              p(tags$strong("In Pennsylvania, 10% of vehicles order a Big Mac in the 
+                drive thru window of McDonalds."))
           ),
           conditionalPanel(
             condition = "input.backSce == 'Scenario C'",
-              p("40% of the people in a college town have type A blood.
-                There is a Red Cross Station where people from the town donate blood.")
+              p(tags$strong("40% of the people in a college town have type A blood.
+                There is a Red Cross Station where people from the town donate blood."))
           ),
           fluidRow(
             column(
@@ -435,7 +438,7 @@ ui <- list(
               uiOutput("gameProgressTree", align = "center"),
               bsButton(
                 inputId = "hint",
-                label = "Show PMF",
+                label = "Hint",
                 size = "default"
             ),
             plotOutput("Plot", width = "400")
@@ -463,11 +466,6 @@ ui <- list(
           Available from https://CRAN.R-project.org/package=dplyr"
           ),
           p(class = "hangingindent",
-            "Wickham, H. (2016). ggplot2: Elegant graphics for data analysis.
-            Springer-Verlag:New York. (v 3.3.6) [R package]. Available from
-            https://ggplot2.tidyverse.org"
-            ),
-          p(class = "hangingindent",
             "Robert Carey and Neil Hatfield (2022). 
             boastUtils: BOAST Utilities. (v 0.1.12.3.)[R package] 
             Available from https://github.com/EducationShinyAppTeam/boastUtils"
@@ -487,6 +485,11 @@ ui <- list(
             shinyWidgets: Custom Inputs Widgets for Shiny. (v 0.7.0.)[R package]
             Available from https://CRAN.R-project.org/package=shinyWidgets"
             ),
+          p(class = "hangingindent",
+            "Wickham, H. (2016). ggplot2: Elegant graphics for data analysis.
+            Springer-Verlag:New York. (v 3.3.6) [R package]. Available from
+            https://ggplot2.tidyverse.org"
+          ),
           p(class = "hangingindent",
             "Winston Chang and Barbara Borges Ribeiro (2021). 
           shinydashboard: Create Dashboards with 'Shiny'. 
@@ -624,8 +627,10 @@ server <- function(input, output, session) {
               size = 2,
               na.rm = TRUE
             ) +
-            geom_point(
-              mapping = aes(x = input$numSs, y = expected),
+            annotate(
+              geom = "point",
+              x = input$numSs, 
+              y = expected,
               shape = 23,
               fill = "blue",
               color = "blue",
@@ -755,8 +760,10 @@ server <- function(input, output, session) {
           b <- ggplot( 
             data = samSpace) +
             geom_point(aes(x = xs, y = ys), size = 2, na.rm= TRUE) + 
-            geom_point(
-              mapping = aes( x = input$numTs, y = input$numTs*input$probSucc),
+            annotate(
+              geom = "point",
+              x = input$numTs, 
+              y = input$numTs*input$probSucc,
               shape = 23,
               fill = "blue",
               color = "blue",
