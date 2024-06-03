@@ -358,7 +358,7 @@ ui <- list(
               question, choose the most suitable distribution for that situation.
               The graph of the probability mass function will appear as a hint 
               when you click the 'Hint' button. The game is won when you get 5
-              correct answers but keep in mind that the man will fall off of the 
+              correct answers, but keep in mind that the man will fall off of the 
               tree after 4 incorrect guesses and the game will be over!"),
           selectInput(
             inputId = "backSce", label = "Background Scenario",
@@ -383,7 +383,7 @@ ui <- list(
             column(
               width = 6,
               wellPanel(
-                h3("Questions: "),
+                h3("Question"),
                 br(),
                 uiOutput("question"),
                 br(),
@@ -597,11 +597,13 @@ server <- function(input, output, session) {
       
       expected <- input$numSs/input$probSuccess
       
+      minVal <- 5
       maxTrials <- ifelse(
         test = max(trials) > expected,
         yes = max(trials) + 1,
         no = ceiling(expected) + 1
       )
+      maxTrials <- max(minVal, maxTrials)
       
       successVector <- c()
       for (i in 1:maxTrials) {
