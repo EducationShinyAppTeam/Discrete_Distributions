@@ -439,7 +439,7 @@ ui <- list(
               bsButton(
                 inputId = "hint",
                 label = "Hint",
-                size = "default"
+                size = "large"
             ),
             plotOutput("Plot", width = "400")
             )
@@ -1255,14 +1255,21 @@ server <- function(input, output, session) {
                 fill = "skyblue"
               ) +
               theme_bw() +
-              ylab(label = "prob. of a specific number of red balls") +
-              xlab(label = "number of red balls") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of red balls",
+                y = "Prob. of a specific number of red balls"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                plot.title = element_text(size = 20, hjust = 0.5),
+                axis.title = element_text(size = 13)
+              )
           } else if ( bank[scoring$questionNum, "ansValue"] == 'Negative Binomial') {
             ggplot() +
               stat_function(
@@ -1275,16 +1282,21 @@ server <- function(input, output, session) {
                 fill = "skyblue"
               ) +
               theme_bw() +
-              ylab(label = "prob. of seeing three red balls in a 
-                   specific trial number") +
-              xlab(label = "number of balls drawn out before we get 
-                   three red balls") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of balls drawn out before we get three red balls",
+                y = "Prob. of seeing three red balls in a specific trial number"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
+              )
           } else if ( bank[scoring$questionNum, "ansValue"] == 'Geometric') {
             ggplot() +
               stat_function(
@@ -1297,16 +1309,21 @@ server <- function(input, output, session) {
                 fill = "skyblue"
               ) +
               theme_bw() + 
-              ylab(label = "prob. of seeing the first red ball in a specific
-                   trial number") +
-              xlab(label = "number of balls drawn out before we get the first 
-                   red ball.") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of balls drawn out before we get the first red ball",
+                y = "Prob. of seeing the first red ball in a specific trial number"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
+              )
           } else if ( bank[scoring$questionNum, "ansValue"] == 'Bernoulli') {
             ggplot() +
               stat_function(
@@ -1319,13 +1336,20 @@ server <- function(input, output, session) {
                 color = "skyblue"
               ) +
               theme_bw() +
-              ylab(label = "prob. of getting a red ball in one trial") +
-              xlab(label = "number of times drawn out") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of times drawn out",
+                y = "Prob. of getting a red ball in one trial"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0.1), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
               )
           } else if ( bank[scoring$questionNum, "ansValue"] == 'Hypergeometric') {
             ggplot() +
@@ -1339,15 +1363,21 @@ server <- function(input, output, session) {
                 fill = "skyblue"
               ) +
               theme_bw() +
-              ylab(label = "prob. of getting specific amount of red balls out 
-                   of eight draws") +
-              xlab(label = "Number of red balls drawn") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of red balls drawn",
+                y = "Prob. of getting specific amount of red balls out of eight draws"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
+              )
           }
         })
       } 
@@ -1365,15 +1395,21 @@ server <- function(input, output, session) {
                 fill = "skyblue"
               ) +
               theme_bw() +
-              ylab(label = "prob. of that amount of vehicles order Big Mac in 7 
-                   cars") +
-              xlab(label = "number of cars order Big Mac") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of cars that order a Big Mac",
+                y = "Prob. of that amount of vehicles ordering a Big Mac in 7 cars"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
+              )
           } else if ( bank2[scoring_2$questionNum, "ansValue"] == 'Negative Binomial') {
             ggplot() +
               stat_function(
@@ -1386,15 +1422,21 @@ server <- function(input, output, session) {
                 fill = "skyblue"
               ) +
               theme_bw() +
-              ylab(label = "prob. of 3 cars order Big Mac in a fixed number of 
-                   vehicles") +
-              xlab(label = "number of vehicles") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of vehicles",
+                y = "Prob. of 3 cars ordering a Big Mac in a fixed number of vehicles"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
+              )
           } else if ( bank2[scoring_2$questionNum, "ansValue"] == 'Geometric') {
             ggplot() +
               stat_function(
@@ -1407,15 +1449,21 @@ server <- function(input, output, session) {
                 fill = "skyblue"
               ) +
               theme_bw() + 
-              ylab(label = "prob. of seeing the first car order Big Mac in a 
-                   fixed number of vehicles") +
-              xlab(label = "number of vehicles") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of vehicles",
+                y = "Prob. of seeing first car order a Big Mac in fixed number of vehicles"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0.1), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
+              )
           } else if ( bank2[scoring_2$questionNum, "ansValue"] == 'Bernoulli') {
             ggplot() +
               stat_function(
@@ -1428,14 +1476,21 @@ server <- function(input, output, session) {
                 color = "skyblue"
               ) +
               theme_bw() +
-              ylab(label = "prob. of seeing a car order Big Mac") +
-              xlab(label = "number of vehicles") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of vehicles",
+                y = "Prob. of seeing a car order a Big Mac"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0.1), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
+              )
           } else if ( bank2[scoring_2$questionNum, "ansValue"] == 'Hypergeometric') {
             ggplot() +
               stat_function(
@@ -1448,15 +1503,21 @@ server <- function(input, output, session) {
                 fill = "skyblue"
               ) +
               theme_bw() +
-              ylab(label = "prob. of seeing a fixed number of cars order Big Mac
-                   in four vehicles") +
-              xlab(label = "Number of cars order Big Mac") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of cars that order a Big Mac",
+                y = "Prob. of seeing fixed number of cars order Big Mac in four vehicles"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(-0.05,0), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
+              )
           }
         })
       } 
@@ -1474,15 +1535,21 @@ server <- function(input, output, session) {
                 fill = "skyblue"
               ) +
               theme_bw() +
-              ylab(label = "prob. of a specific number of type A blood donors 
-                   in 10 donors") +
-              xlab(label = "number of type A blood donors") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of type A blood donors",
+                y = "Prob. of a specific number of type A blood donors in 10 donors"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
+              )
           } else if ( bank3[scoring_3$questionNum, "ansValue"] == 'Negative Binomial') {
             ggplot() +
               stat_function(
@@ -1495,14 +1562,21 @@ server <- function(input, output, session) {
                 fill = "skyblue"
               ) +
               theme_bw() +
-              ylab(label = "prob. of 4 type A blood donors go to the station") +
-              xlab(label = "number of donors") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of donors",
+                y = "Prob. of 4 type A blood donors going to the station"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
+              )
           } else if ( bank3[scoring_3$questionNum, "ansValue"] == 'Geometric') {
             ggplot() +
               stat_function(
@@ -1515,15 +1589,21 @@ server <- function(input, output, session) {
                 fill = "skyblue"
               ) +
               theme_bw() + 
-              ylab(label = "prob. of the first type A blood donor go to the 
-                   station") +
-              xlab(label = "number of donors") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of donors",
+                y = "Prob. of the first type A blood donor going to the station"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
+              )
           } else if ( bank3[scoring_3$questionNum, "ansValue"] == 'Bernoulli') {
             ggplot() +
               stat_function(
@@ -1536,14 +1616,21 @@ server <- function(input, output, session) {
                 color = "skyblue"
               ) +
               theme_bw() +
-              ylab(label = "prob. of a donor has type A blood") +
-              xlab(label = "number of donors") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of donors",
+                y = "Prob. of a donor having type A blood"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0.1), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
+              )
           } else if ( bank3[scoring_3$questionNum, "ansValue"] == 'Hypergeometric') {
             ggplot() +
               stat_function(
@@ -1556,15 +1643,21 @@ server <- function(input, output, session) {
                 fill = "skyblue"
               ) +
               theme_bw() +
-              ylab(label = "prob. of seeing a specific number of type A blood
-                   donors in 5 donors.") +
-              xlab(label = "Number of type A blood donors") +
+              labs(
+                title = "PMF Graph",
+                x = "Number of type A blood donors",
+                y = "Prob. of seeing specific number of type A blood donors in 5 donors"
+              ) +
               scale_x_continuous(
-                expand = expansion(mult = c(1,2), add = 0)
+                expand = expansion(mult = c(0.15,0), add = 0)
               ) + 
               scale_y_continuous(
                 expand = expansion(mult = 0, add = c(0,0.05))
-              ) 
+              ) +
+              theme(
+                axis.title = element_text(size = 13),
+                plot.title = element_text(size = 20, hjust = 0.5)
+              )
           }
         })
       }
@@ -1603,7 +1696,7 @@ server <- function(input, output, session) {
         width = "100%",
         alt = "The man has fallen to the last branch"
       )
-    } else if (scoring$mistakes == 4) {
+    } else if (scoring$mistakes >= 4) {
       img(
         src = "Cell05.jpg",
         width = "100%",
