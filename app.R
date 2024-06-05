@@ -64,20 +64,21 @@ ui <- list(
           tabName = "overview",
           withMathJax(),
           h1("Discrete Distributions"), # This should be the full name.
-          p("This app will focus on Bernoulli, Binomial, Hypergeometric, 
+          p("This app focuses on Bernoulli, Binomial, Hypergeometric, 
             Geometric and Negative Binomial distributions.
-            This app will explore different sample spaces and sample paths. 
+            It will explore different sample spaces and sample paths for both categories of discrete
+            distributions through an interactive graph. 
             Also, it will help users to choose the suitable distribution in an actual
             life scenario and show the Probability Mass Function graphs about 
             that distribution."),
           h2("Instructions"),
           tags$ol(
-            tags$li("Basic information about these distributions are introduced 
-                    in the Prerequisites Page."),
-            tags$li("In the Exploration Page, users can explore different sample 
-                    spaces and sample paths by changing the number of Successes
-                    or Trials and the probability of success."),
-            tags$li("In the Game Page, an actual life scenario is given. Users 
+            tags$li("Basic information about these distributions is introduced 
+                    on the Prerequisites Page."),
+            tags$li("In the Explore Page, users can explore different sample 
+                    spaces and sample paths by changing the number of Successes/Trials 
+                    and the Probability of Success with adjustable sliders."),
+            tags$li("In the Game Page, an actual life scenario is given where users 
                     need to choose the suitable distribution.")
           ),
           ##### Go Button--location will depend on your goals
@@ -107,7 +108,7 @@ ui <- list(
             citeApp(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 6/3/2024 by NP.")
+            div(class = "updated", "Last Update: 6/5/2024 by NP.")
           )
         ),
         #### Set up the Prerequisites Page ----
@@ -138,7 +139,7 @@ ui <- list(
               br(),
               tags$strong("Expected Value and Sample Paths: "), 'The expected value for a random variable is a measure of 
               its central tendency and is a synonym for the mean. It is denoted by "E(x)" and it can be calculated using the 
-              formulas listed under each distribution. A sample path is essentially a path that demonstrates the possible 
+              formulas listed under each distribution. Additionally, a sample path is essentially a path that demonstrates the possible 
               steps that the process can take.'
             )
           ),
@@ -150,8 +151,8 @@ ui <- list(
             width = '100%',
             p(
               tags$strong("Description: "), "A Bernoulli variable, X, is a 
-              discrete variable which has only two outcomes -- 1 and 0. 
-              p is the probability of 1 (success).",
+              discrete variable which has only two outcomes: 1 (success) and 0 (failure). 
+              p is the probability of 1.",
               br(),
               tags$strong("Notation: "), "X ~ Bern(p)",
               br(),
@@ -172,8 +173,9 @@ ui <- list(
               br(),
               tags$strong("Notation: "), "X ~ Bin(n, p)",
               br(),
-              tags$strong("Special Case: "), "Bern(p) is equivalent to 
-              Bin(n = 1, p)",
+              tags$strong("Special Case: "), "Since a Binomial variable is n
+              iid (independent and identically distributed) Bernoulli variables,
+              Bern(p) is equivalent to Bin(n = 1, p).",
               br(),
               tags$strong("E(x): "), "np"
             )
@@ -204,10 +206,10 @@ ui <- list(
             p(
               tags$strong("Description: "), "A Geometric variable, X, is a 
               discrete variable which describes the number of independent 
-              trials until the first success where each trial 
-              has probability p of success.", 
+              trials until the", tags$strong("first"), "success where each trial has probability 
+              p of success.", 
               br(),
-              tags$strong("Common Notation: "), "X ~ Geom(p)",
+              tags$strong("Notation: "), "X ~ Geom(p)",
               br(),
               tags$strong("E(x): "), "1/p"
             )
@@ -221,13 +223,14 @@ ui <- list(
             p(
               tags$strong("Description: "), "A Negative Binomial variable, X, 
               is a discrete variable which describes the number of independent 
-              trials before the rth success where each trial has 
+              trials before the", tags$strong("rth"), "success where each trial has 
               probability p of success.",
               br(),
-              tags$strong("Common Notation: "), "X ~ NBin(r, p)",
+              tags$strong("Notation: "), "X ~ NBin(r, p)",
               br(),
-              tags$strong("Special Case: "), "Geom(p) is equivalent to 
-              NBin(r = 1, p)",
+              tags$strong("Special Case: "), "Since a Negative Binomial variable is
+              an extension of the Geometric variable, Geom(p) is equivalent to 
+              NBin(r = 1, p).",
               br(),
               tags$strong("E(x): "), "r/p"
             )
@@ -269,10 +272,10 @@ ui <- list(
               title = "Random: Trials",
               h3("Instructions"),
               p("For this part, the Trial Number is what we are interested in 
-                and the Success Number is fixed.", "So, ", strong("Geometric"), "and ", 
+                and the Success Number is fixed, so", strong("Geometric"), "and ", 
                 strong("Negative Binomial"), "distributions are suitable. Adjust the sliders
                 for the number of successes, probability of success, and number of sample
-                paths to observe how the graph and sample paths respond."
+                paths and observe how the graph and sample paths respond."
                 ),
               br(),
               sidebarLayout(
@@ -325,10 +328,10 @@ ui <- list(
               title = "Random: Successes",
               h3("Instructions"),
               p("For this part, the Success Number is what we are interested in 
-                and the Trial Number is fixed.", "So, ", strong("Bernoulli"), "and ", 
+                and the Trial Number is fixed, so", strong("Bernoulli"), "and ", 
                 strong("Binomial"), "distributions are suitable. Adjust the sliders
                 for the number of trials, probability of success, and number of sample
-                paths to observe how the graph and sample paths respond."
+                paths and observe how the graph and sample paths respond."
               ),
               br(),
               sidebarLayout(
@@ -547,9 +550,10 @@ server <- function(input, output, session) {
         session = session,
         type = "info",
         title = "Instructions:",
-        text = "In Explore Page, change number of Success/Trials and probability
-        to see the changes in the sample space and sample path. In Game Page, choose 
-        the suitable distribution for each question with a PMF graph hint."
+        text = 'In the Explore Page, change the number of Successes/Trials and Probability
+        to see the changes in the sample space and sample path. On the Game Page, pick a 
+        scenario and choose the distribution that best matches each question. Click the
+        "Hint" button to see a graph of the PMF to help.'
       )
     }
   )
