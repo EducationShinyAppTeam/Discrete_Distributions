@@ -114,8 +114,34 @@ ui <- list(
         tabItem(
           tabName = "prerequisites",
           withMathJax(),
-          h2("Distributions"),
+          h2("Background and Types of Distributions"),
           br(),
+          box(
+            title = "Background Information",
+            status = "primary",
+            collapsible = TRUE,
+            collapsed = FALSE,
+            width = '100%',
+            p(
+              tags$strong("Distributions: "), "A probability distribution is a function that maps the probability
+              for all potential events associated with a", tags$strong("random variable"), "(function that assigns a number to each 
+              outcome in an event). Distributions can be either", tags$strong("discrete,"), "where the data is 
+              counted by integer (like number of people), or", tags$strong("continuous,"), "where the data is 
+              measured within an interval (like volume or mass). But, in this app, we will be exclusively examining 
+              discrete distributions.",
+              br(),
+              br(),
+              tags$strong("PMF: "), "The probability mass function, or PMF, of a discrete distribution is a function
+              that describes how likely possible values in a random variable are to occur. These are unique to each distribution 
+              and are often used to calculate the probability that the random variable takes on a specific value.",
+              br(),
+              br(),
+              tags$strong("Expected Value and Sample Paths: "), 'The expected value for a random variable is a measure of 
+              its central tendency and is a synonym for the mean. It is denoted by "E(x)" and it can be calculated using the 
+              formulas listed under each distribution. A sample path is essentially a path that demonstrates the possible 
+              steps that the process can take.'
+            )
+          ),
           box(
             title = "Bernoulli Distribution",
             status = "primary",
@@ -213,14 +239,14 @@ ui <- list(
             collapsed = FALSE,
             width = '100%',
             p(
-              "For the", tags$strong("Binomial"), "and", 
+              tags$strong("Binomial"), "and", 
               tags$strong("Hypergeometric"), 
               "distributions: the number of trials is ", strong("fixed and known"), 
               "while the number of successes is the ",
               strong("random variable"), "of interest.",
               br(),
               br(),
-              "For the", tags$strong("Geometric"), "and", 
+              tags$strong("Geometric"), "and", 
               tags$strong("Negative Binomial"), 
               "distributions: the number of trials is the ", 
               strong("random variable"), 
@@ -243,9 +269,11 @@ ui <- list(
               title = "Random: Trials",
               h3("Instructions"),
               p("For this part, the Trial Number is what we are interested in 
-                and the Success Number is fixed."),
-              p("So, ", strong("Geometric"), "distributions and ", 
-                strong("Negative Binomial"), "distributions are suitable."),
+                and the Success Number is fixed.", "So, ", strong("Geometric"), "and ", 
+                strong("Negative Binomial"), "distributions are suitable. Adjust the sliders
+                for the number of successes, probability of success, and number of sample
+                paths to observe how the graph and sample paths respond."
+                ),
               br(),
               sidebarLayout(
                 sidebarPanel(
@@ -296,10 +324,12 @@ ui <- list(
             tabPanel( 
               title = "Random: Successes",
               h3("Instructions"),
-              p("For this part, the Success number is what we are interested in
-                and the Trial Number is fixed."),
-              p("So, ", strong("Bernoulli"), "distributions and ", strong(
-                "Binomial"), "distributions are suitable."),
+              p("For this part, the Success Number is what we are interested in 
+                and the Trial Number is fixed.", "So, ", strong("Bernoulli"), "and ", 
+                strong("Binomial"), "distributions are suitable. Adjust the sliders
+                for the number of trials, probability of success, and number of sample
+                paths to observe how the graph and sample paths respond."
+              ),
               br(),
               sidebarLayout(
                 sidebarPanel(
