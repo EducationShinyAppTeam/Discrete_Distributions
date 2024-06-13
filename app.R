@@ -108,7 +108,7 @@ ui <- list(
             citeApp(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 6/5/2024 by NP.")
+            div(class = "updated", "Last Update: 6/12/2024 by NP.")
           )
         ),
         #### Set up the Prerequisites Page ----
@@ -126,21 +126,25 @@ ui <- list(
             p(
               tags$strong("Distributions: "), "A probability distribution is a function that maps the probability
               for all potential events associated with a", tags$strong("random variable"), "(function that assigns a number to each 
-              outcome in an event). Distributions can be either", tags$strong("discrete,"), "where the data is 
-              counted by integer (like number of people), or", tags$strong("continuous,"), "where the data is 
-              measured within an interval (like volume or mass). But, in this app, we will be exclusively examining 
+              outcome in an event). Distributions can be either", tags$strong("discrete,"), "where the data takes on only
+              specific values (like shoe sizing that comes in half or full size increments), or", tags$strong("continuous,"), "where the data can take on any 
+              decimal value within a certain interval (like volume or mass). But, in this app, we will be exclusively examining 
               discrete distributions.",
               br(),
               br(),
               tags$strong("PMF: "), "The probability mass function, or PMF, of a discrete distribution is a function
-              that describes how likely possible values in a random variable are to occur. These are unique to each distribution 
-              and are often used to calculate the probability that the random variable takes on a specific value.",
+              that describes how likely possible values in a random variable are to occur. The", tags$strong("CDF"), "(cumulative distribution function)
+              of a random variable is another helpful function that displays the probability that a random variable is less than or equal to
+              than a particular value.",
               br(),
               br(),
-              tags$strong("Expected Value and Sample Paths: "), 'The expected value for a random variable is a measure of 
-              its central tendency and is a synonym for the mean. It is denoted by "E(x)" and it can be calculated using the 
-              formulas listed under each distribution. Additionally, a sample path is essentially a path that demonstrates the possible 
-              steps that the process can take.'
+              tags$strong("Expected Value: "), 'The expected value for a random variable is a measure of 
+              its central tendency and is a synonym for the mean. It is denoted by "E(X)," and it can be calculated by summing
+              over the possible values times the chance of those values.',
+              br(),
+              br(),
+              tags$strong("Sample Path: "), "A sample path is essentially a sequence that demonstrates the possible steps that are
+              taken by a variable as each trial of the underlying process occurs."
             )
           ),
           box(
@@ -474,7 +478,7 @@ ui <- list(
                 label = "Hint",
                 size = "large"
             ),
-            plotOutput("Plot", width = "400")
+            plotOutput(outputId = "Plot", width = "400")
             )
           )
         ),
@@ -820,7 +824,7 @@ server <- function(input, output, session) {
               text = element_text(size = 18)
             )
           
-          for (i in 1:input$samPath2){
+          for (i in 1:input$samPath2){ 
             b <- b + geom_step(data = samPath, 
                                aes_string(x = "trial", 
                                           y = as.name(paste0("sumSuccess",i))),
@@ -828,10 +832,10 @@ server <- function(input, output, session) {
                                na.rm = TRUE,
                                position = position_nudge(
                                  x = if_else( 
-                                   i == 1, 0, if_else(i==2, 0.02, -0.02)
+                                   i == 1, 0, if_else(i == 2, 0.02, -0.02)
                                    ),
                                  y = if_else( 
-                                   i == 1, 0, if_else(i==2, 0.02, -0.02))
+                                   i == 1, 0, if_else(i == 2, 0.02, -0.02))
                                  ),
                                size = 1)
           }
@@ -1303,7 +1307,7 @@ server <- function(input, output, session) {
               theme(
                 plot.title = element_text(size = 20, hjust = 0.5),
                 axis.title = element_text(size = 13)
-              )
+              ) 
           } else if ( bank[scoring$questionNum, "ansValue"] == 'Negative Binomial') {
             ggplot() +
               stat_function(
@@ -1413,7 +1417,8 @@ server <- function(input, output, session) {
                 plot.title = element_text(size = 20, hjust = 0.5)
               )
           }
-        })
+        }
+        )
       } 
       if (input$backSce == "Scenario B") {
         output$Plot <- renderPlot({
