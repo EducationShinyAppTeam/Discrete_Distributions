@@ -1,6 +1,35 @@
-id,question,A,B,C,D,E,answer,Feedback,Plot,ansValue
-1,We take out eight balls one at a time from the box with replacement. How many of them are red balls?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,B,"Number of trials is fixed in this situation, and what of interest is number of successes. ","plot(0:5, dbinom(0:5, size = 8, prob = 0.2), type = ""h"")",Binomial
-2,We take balls out of the box one at a time with replacement. How many times are needed until we get three red balls?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,E,"In this situation, number of successes is fixed and what we want to know is the number of trials. ","plot(dnbinom(0:30, size = 3, prob = 0.2), type = 'h')",Negative Binomial
-3,We take balls out of the box one at a time with replacement. How many times are needed until the first red ball is taken out? ,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,D,What we want to know is the number of trials until we see the first success. ,"plot(dgeom(0:30, 0.2), type = 'h')",Geometric
-4,We draw one ball out of the box. What is the probability of taking out a red ball?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,A,"Because the trial number is only one,","plot(dbern(0:30, prob = 0.2), type = ""o"")",Bernoulli
-5,We take out eight balls from the box without replacement. How many of them are red balls?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,C,Number of trials is fixed and the probability of success changes (without replacement) .,"plot(dhyper(0:5, 5, 25, 8), type = ""h"")",Hypergeometric
+id,question,A,B,C,D,E,answer,Feedback,Plot,ansValue,aria
+1,We take out eight balls one at a time from the box with replacement. How many of them are red balls?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,B,"Number of trials is fixed in this situation, and what of interest is number of successes. ","plot(0:5, dbinom(0:5, size = 8, prob = 0.2), type = ""h"")",Binomial,"This chart has title 'PMF Graph'.
+          It has x-axis 'Number of red balls' with labels 0, 2, 4, 6 and 8.
+          It has y-axis 'Prob. of a specific number of red balls' with labels 0.0, 0.1, 0.2 and 0.3.
+          The chart is a bar chart with 6 vertical bars.
+          Bar 1 is centered at 0, and length is from 0 to 0.17.
+          Bar 2 is centered at 1, and length is from 0 to 0.34.
+          Bar 3 is centered at 2, and length is from 0 to 0.29.
+          Bar 4 is centered at 3, and length is from 0 to 0.15.
+          Bar 5 is centered at 4, and length is from 0 to 0.05.
+          Bar 6 is centered at 5, and length is from 0 to 0.01."
+2,We take balls out of the box one at a time with replacement. How many times are needed until we get three red balls?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,E,"In this situation, number of successes is fixed and what we want to know is the number of trials. ","plot(dnbinom(0:30, size = 3, prob = 0.2), type = 'h')",Negative Binomial,"This chart has title 'PMF Graph'.
+          It has x-axis 'Number of balls drawn out before we get three red balls' with labels 0, 10, 20, 30, 40 and 50.
+          It has y-axis 'Prob. of seeing three red balls in a specific trial number' with labels 0.000, 0.025, 0.050, 0.075 and 0.100.
+          The chart is a bar chart with 56 vertical bars.
+          From 0 to 10, there is a steep increase to about 0.060 in probability (started near zero), then it gradually trails off until probability approaches 0 around 50."
+3,We take balls out of the box one at a time with replacement. How many times are needed until the first red ball is taken out? ,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,D,What we want to know is the number of trials until we see the first success. ,"plot(dgeom(0:30, 0.2), type = 'h')",Geometric,"This chart has title 'PMF Graph'.
+          It has x-axis 'Number of balls drawn out before we get the first red ball' with labels 0, 10, 20 and 30.
+          It has y-axis 'Prob. of seeing the first red ball in a specific trial number' with labels 0.00, 0.05, 0.10, 0.15, 0.20 and 0.25.
+          The chart is a bar chart with 34 vertical bars.
+          The probability starts at 0.2 at 0 with a steep decrease until it approaches probability 0 around 25."
+4,We draw one ball out of the box. What is the probability of taking out a red ball?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,A,"Because the trial number is only one,","plot(dbern(0:30, prob = 0.2), type = ""o"")",Bernoulli,"This chart has title 'PMF Graph'.
+          It has x-axis 'Number of times drawn out' with labels 0.00, 0.25, 0.50, 0.75 and 1.00.
+          It has y-axis 'Prob. of getting a red ball in one trial' with labels 0.2, 0.4, 0.6 and 0.8.
+          The chart is a set of 1 line.
+          Line 1 connects 2 points, at (0, 0.8) and (1, 0.2)."
+5,We take out eight balls from the box without replacement. How many of them are red balls?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,C,Number of trials is fixed and the probability of success changes (without replacement) .,"plot(dhyper(0:5, 5, 25, 8), type = ""h"")",Hypergeometric,"This chart has title 'PMF Graph'.
+          It has x-axis 'Number of red balls drawn' with labels 0, 2, 4 and 6.
+          It has y-axis 'Prob. of getting specific amount of red balls out of eight draws' with labels 0.0, 0.1, 0.2, 0.3 and 0.4.
+          The chart is a bar chart with 5 vertical bars.
+          Bar 1 is centered at 0, and length is from 0 to 0.13.
+          Bar 2 is centered at 1, and length is from 0 to 0.35.
+          Bar 3 is centered at 2, and length is from 0 to 0.34.
+          Bar 4 is centered at 3, and length is from 0 to 0.15.
+          Bar 5 is centered at 4, and length is from 0 to 0.03."

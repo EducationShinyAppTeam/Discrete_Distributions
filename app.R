@@ -108,7 +108,7 @@ ui <- list(
             citeApp(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 6/12/2024 by NP.")
+            div(class = "updated", "Last Update: 6/24/2024 by NP.")
           )
         ),
         #### Set up the Prerequisites Page ----
@@ -396,7 +396,8 @@ ui <- list(
               The graph of the probability mass function will appear as a hint 
               when you click the 'Hint' button. The game is won when you get 5
               correct answers, but keep in mind that the man will fall off of the 
-              tree after 4 incorrect guesses and the game will be over!"),
+              tree after 4 incorrect guesses and the game will be over. If you lose,
+              use the 'Restart' button to reset your progress."),
           selectInput(
             inputId = "backSce", label = "Background Scenario",
             choices = c('Scenario A', 'Scenario B', 'Scenario C'),
@@ -478,7 +479,14 @@ ui <- list(
                 label = "Hint",
                 size = "large"
             ),
-            plotOutput(outputId = "Plot", width = "400")
+            plotOutput(outputId = "Plot", width = "400"),
+            tags$script(HTML(
+              "$(document).ready(function() {
+             document.getElementById('Plot').setAttribute('aria-describedby',
+            'ariaText')
+            })"
+            )),
+            uiOutput(outputId = "ariaText")
             )
           )
         ),
@@ -960,6 +968,9 @@ server <- function(input, output, session) {
       output$Plot <- renderUI({
         return(NULL)
       })
+      output$PlotText <- renderUI({
+        return(NULL)
+      })
     }
   )
 
@@ -1078,6 +1089,7 @@ server <- function(input, output, session) {
   observeEvent(
     eventExpr = input$nextQuestion,
     handlerExpr = {
+      hintPressed(FALSE)
       ######## scenario A
       if (scoring$id < nrow(bank)) {
         scoring$id <- scoring$id + 1
@@ -1150,12 +1162,16 @@ server <- function(input, output, session) {
       output$Plot <- renderUI({
         return(NULL)
       })
+      output$PlotText <- renderUI({
+        return(NULL)
+      })
     })
 
   ### Reset button ----
   observeEvent(
     eventExpr = input$restart,
     handlerExpr = {
+      hintPressed(FALSE)
       ### scenario A
       if (scoring$id < nrow(bank)) {
         scoring$id <- scoring$id + 1
@@ -1181,6 +1197,9 @@ server <- function(input, output, session) {
         output$Plot <- renderUI({
           return(NULL)
         })
+        output$PlotText <- renderUI({
+          return(NULL)
+        })
       } else {
         scoring$id <- 1
         output$mark <- renderIcon()
@@ -1192,6 +1211,9 @@ server <- function(input, output, session) {
           disabled = FALSE
         )
         output$Plot <- renderUI({
+          return(NULL)
+        })
+        output$PlotText <- renderUI({
           return(NULL)
         })
       }
@@ -1220,6 +1242,9 @@ server <- function(input, output, session) {
         output$Plot <- renderUI({
           return(NULL)
         })
+        output$PlotText <- renderUI({
+          return(NULL)
+        })
       } else {
         scoring_2$id <- 1
         output$mark <- renderIcon()
@@ -1231,6 +1256,9 @@ server <- function(input, output, session) {
           disabled = FALSE
         )
         output$Plot <- renderUI({
+          return(NULL)
+        })
+        output$PlotText <- renderUI({
           return(NULL)
         })
       }
@@ -1259,6 +1287,9 @@ server <- function(input, output, session) {
         output$Plot <- renderUI({
           return(NULL)
         })
+        output$PlotText <- renderUI({
+          return(NULL)
+        })
       } else {
         scoring_3$id <- 1
         output$mark <- renderIcon()
@@ -1272,15 +1303,23 @@ server <- function(input, output, session) {
         output$Plot <- renderUI({
           return(NULL)
         })
+        output$PlotText <- renderUI({
+          return(NULL)
+        })
       }
     })
+  
+  hintPressed <- reactiveVal(FALSE)
   
   ### display hint ----
   observeEvent(
     eventExpr = input$hint,
     handlerExpr = {
+      hintPressed(TRUE)
       if (input$backSce == 'Scenario A') {
-        output$Plot <- renderPlot({
+        output$Plot <- renderPlot(
+          alt = "Graph of PMF",
+          {
           if ( bank[scoring$questionNum, "ansValue"] == 'Binomial') {
             ggplot() +
               stat_function(
@@ -1307,7 +1346,7 @@ server <- function(input, output, session) {
               theme(
                 plot.title = element_text(size = 20, hjust = 0.5),
                 axis.title = element_text(size = 13)
-              ) 
+              )
           } else if ( bank[scoring$questionNum, "ansValue"] == 'Negative Binomial') {
             ggplot() +
               stat_function(
@@ -1417,11 +1456,12 @@ server <- function(input, output, session) {
                 plot.title = element_text(size = 20, hjust = 0.5)
               )
           }
-        }
-        )
+        })
       } 
       if (input$backSce == "Scenario B") {
-        output$Plot <- renderPlot({
+        output$Plot <- renderPlot(
+          alt = "Graph of PMF",
+          {
           if ( bank2[scoring_2$questionNum, "ansValue"] == 'Binomial') {
             ggplot() +
               stat_function(
@@ -1561,7 +1601,9 @@ server <- function(input, output, session) {
         })
       } 
       if (input$backSce == "Scenario C") {
-        output$Plot <- renderPlot({
+        output$Plot <- renderPlot(
+          alt = "Graph of PMF",
+          {
           if ( bank3[scoring_3$questionNum, "ansValue"] == 'Binomial') {
             ggplot() +
               stat_function(
@@ -1580,6 +1622,7 @@ server <- function(input, output, session) {
                 y = "Prob. of a specific number of type A blood donors in 10 donors"
               ) +
               scale_x_continuous(
+                breaks = seq(from = 0, to = 10, by = 2),
                 expand = expansion(mult = c(0.15,0), add = 0)
               ) + 
               scale_y_continuous(
@@ -1702,6 +1745,70 @@ server <- function(input, output, session) {
       }
     }
   )
+  observeEvent(
+    eventExpr = input$backSce,
+    handlerExpr = {
+      hintPressed(FALSE)
+    }
+  )
+  
+  # ARIA plot captions
+  output$ariaText <- renderUI({
+    if (hintPressed()) {
+      if (input$backSce == 'Scenario A') {
+        if (bank[scoring$questionNum, "ansValue"] == 'Binomial') {
+          p(tags$strong("Graph Caption: "),
+            bank[scoring$questionNum, "aria"])
+        } else if (bank[scoring$questionNum, "ansValue"] == 'Negative Binomial') {
+          p(tags$strong("Graph Caption: "),
+            bank[scoring$questionNum, "aria"])
+        } else if (bank[scoring$questionNum, "ansValue"] == 'Geometric') {
+          p(tags$strong("Graph Caption: "),
+            bank[scoring$questionNum, "aria"])
+        } else if (bank[scoring$questionNum, "ansValue"] == 'Bernoulli') {
+          p(tags$strong("Graph Caption: "),
+            bank[scoring$questionNum, "aria"])
+        } else if (bank[scoring$questionNum, "ansValue"] == 'Hypergeometric') {
+          p(tags$strong("Graph Caption: "),
+            bank[scoring$questionNum, "aria"])
+        }
+      } else if (input$backSce == 'Scenario B') {
+          if (bank2[scoring_2$questionNum, "ansValue"] == 'Binomial') {
+            p(tags$strong("Graph Caption: "),
+              bank2[scoring_2$questionNum, "aria"])
+          } else if (bank2[scoring_2$questionNum, "ansValue"] == 'Negative Binomial') {
+            p(tags$strong("Graph Caption: "),
+              bank2[scoring_2$questionNum, "aria"])
+          } else if (bank2[scoring_2$questionNum, "ansValue"] == 'Geometric') {
+            p(tags$strong("Graph Caption: "),
+              bank2[scoring_2$questionNum, "aria"])
+          } else if (bank2[scoring_2$questionNum, "ansValue"] == 'Bernoulli') {
+            p(tags$strong("Graph Caption: "),
+              bank2[scoring_2$questionNum, "aria"])
+          } else if (bank2[scoring_2$questionNum, "ansValue"] == 'Hypergeometric') {
+            p(tags$strong("Graph Caption: "),
+              bank2[scoring_2$questionNum, "aria"])
+          }
+      } else if (input$backSce == 'Scenario C') {
+          if (bank3[scoring_3$questionNum, "ansValue"] == 'Binomial') {
+            p(tags$strong("Graph Caption: "),
+              bank3[scoring_3$questionNum, "aria"])
+          } else if (bank3[scoring_3$questionNum, "ansValue"] == 'Negative Binomial') {
+            p(tags$strong("Graph Caption: "),
+              bank3[scoring_3$questionNum, "aria"])
+          } else if (bank3[scoring_3$questionNum, "ansValue"] == 'Geometric') {
+            p(tags$strong("Graph Caption: "),
+              bank3[scoring_3$questionNum, "aria"])
+          } else if (bank3[scoring_3$questionNum, "ansValue"] == 'Bernoulli') {
+            p(tags$strong("Graph Caption: "),
+              bank3[scoring_3$questionNum, "aria"])
+          } else if (bank3[scoring_3$questionNum, "ansValue"] == 'Hypergeometric') {
+            p(tags$strong("Graph Caption: "),
+              bank3[scoring_3$questionNum, "aria"])
+          }
+      }
+    }
+  })
   
   ### Display score ----
   output$correct <- renderUI({
