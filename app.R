@@ -68,17 +68,16 @@ ui <- list(
             Geometric and Negative Binomial distributions.
             It will explore different sample spaces and sample paths for both categories of discrete
             distributions through an interactive graph. 
-            Also, it will help users to choose the suitable distribution in an actual
-            life scenario and show the Probability Mass Function graphs about 
-            that distribution."),
+            Also, it will help users to choose the suitable distribution in a real-world 
+            scenario and show the probability mass function graphs about that distribution."),
           h2("Instructions"),
           tags$ol(
             tags$li("Basic information about these distributions is introduced 
-                    on the Prerequisites Page."),
-            tags$li("In the Explore Page, users can explore different sample 
+                    on the 'Prerequisites' page."),
+            tags$li("In the 'Explore' page, users can explore different sample 
                     spaces and sample paths by changing the number of Successes/Trials 
                     and the Probability of Success with adjustable sliders."),
-            tags$li("In the Game Page, an actual life scenario is given where users 
+            tags$li("In the 'Game' page, a real-world scenario is given where users 
                     need to choose the suitable distribution.")
           ),
           ##### Go Button--location will depend on your goals
@@ -108,7 +107,7 @@ ui <- list(
             citeApp(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 6/24/2024 by NP.")
+            div(class = "updated", "Last Update: 6/27/2024 by NP.")
           )
         ),
         #### Set up the Prerequisites Page ----
@@ -155,12 +154,12 @@ ui <- list(
             width = '100%',
             p(
               tags$strong("Description: "), "A Bernoulli variable, X, is a 
-              discrete variable which has only two outcomes: 1 (success) and 0 (failure). 
-              p is the probability of 1.",
+              discrete variable which has only two outcomes: 1 (success) and 0 (failure).", 
+              tags$em('p'), "is the probability of 1.",
               br(),
-              tags$strong("Notation: "), "X ~ Bern(p)",
+              tags$strong("Notation: "), HTML("X ~ Bern(<em>p</em>)"),
               br(),
-              tags$strong("E(x): "), "p"
+              tags$strong("E(X): "), tags$em("p")
             )
           ),
           box(
@@ -171,17 +170,19 @@ ui <- list(
             width = '100%',
             p(
               tags$strong("Description: "), "A Binomial variable, X, 
-              is a discrete variable measuring the number of successes in n 
-              independent experiments with probability p of success in each 
-              trial.",
+              is a discrete variable measuring the number of successes in", tags$em('n'), 
+              "independent experiments with probability", tags$em('p'), "of success in each 
+              trial. It is drawn with replacement, which means drawn items
+              are replaced in the sample space, so", tags$em('p'), "stays the same for each 
+              trial and trials are independent and identically distributed (iid).",
               br(),
-              tags$strong("Notation: "), "X ~ Bin(n, p)",
+              tags$strong("Notation: "), HTML("X ~ Bin(<em>n</em>, <em>p</em>)"),
               br(),
-              tags$strong("Special Case: "), "Since a Binomial variable is n
-              iid (independent and identically distributed) Bernoulli variables,
-              Bern(p) is equivalent to Bin(n = 1, p).",
+              tags$strong("Special Case: "), "Since a Binomial variable is", tags$em("n"),
+              "iid Bernoulli variables,", HTML("Bern(<em>p</em>)"), "is equivalent to", 
+              HTML("Bin(<em>n</em> = 1, <em>p</em>)."),
               br(),
-              tags$strong("E(x): "), "np"
+              tags$strong("E(X): "), tags$em("np")
             )
           ),
           box(
@@ -192,13 +193,16 @@ ui <- list(
             width = '100%',
             p(
               tags$strong("Description: "), "A Hypergeometric variable, X, 
-              is a discrete variable which measures the number of successes in
-              n draws from a population with N objects of which M are 
-              successes.",
+              is a discrete variable which measures the number of successes in",
+              tags$em('n'), "draws from a population with", tags$em('N'), "objects 
+              of which", tags$em('M'), "are successes. It is similar to Binomial, 
+              but Hypergeometric is drawn without replacement, which means that 
+              drawn items are not replaced in the sample space and thus the 
+              probability of success changes for each trial",
               br(),
-              tags$strong("Notation: "), "X ~ HG(n, M, N)",
+              tags$strong("Notation: "), HTML("X ~ HG(<em>n</em>, <em>M</em>, <em>N</em>)"),
               br(),
-              tags$strong("E(x): "), "nM/N"
+              tags$strong("E(X): "), HTML("<em>nM/N</em>")
             )
           ),
           box(
@@ -210,12 +214,12 @@ ui <- list(
             p(
               tags$strong("Description: "), "A Geometric variable, X, is a 
               discrete variable which describes the number of independent 
-              trials until the", tags$strong("first"), "success where each trial has probability 
-              p of success.", 
+              trials until the", tags$strong("first"), "success where each trial 
+              has probability", tags$em('p'), "of success.", 
               br(),
-              tags$strong("Notation: "), "X ~ Geom(p)",
+              tags$strong("Notation: "), HTML("X ~ Geom(<em>p</em>)"),
               br(),
-              tags$strong("E(x): "), "1/p"
+              tags$strong("E(X): "), HTML("1/<em>p</em>")
             )
           ),
           box(
@@ -228,15 +232,15 @@ ui <- list(
               tags$strong("Description: "), "A Negative Binomial variable, X, 
               is a discrete variable which describes the number of independent 
               trials before the", tags$strong("rth"), "success where each trial has 
-              probability p of success.",
+              probability", tags$em('p'), "of success.",
               br(),
-              tags$strong("Notation: "), "X ~ NBin(r, p)",
+              tags$strong("Notation: "), HTML("X ~ NBin(<em>r</em>, <em>p</em>)"),
               br(),
               tags$strong("Special Case: "), "Since a Negative Binomial variable is
-              an extension of the Geometric variable, Geom(p) is equivalent to 
-              NBin(r = 1, p).",
+              an extension of the Geometric variable,", HTML('Geom(<em>p</em>)'), 
+              "is equivalent to", HTML('NBin(<em>r</em> = 1, <em>p</em>).'),
               br(),
-              tags$strong("E(x): "), "r/p"
+              tags$strong("E(X): "), HTML("<em>r/p</em>")
             )
           ),
           box(
@@ -270,6 +274,7 @@ ui <- list(
         tabItem(
           tabName = "explore",
           withMathJax(),
+          h2("Exploring Distributions"),
           tabsetPanel(
             type = "tabs",
             tabPanel( 
@@ -971,6 +976,9 @@ server <- function(input, output, session) {
       output$PlotText <- renderUI({
         return(NULL)
       })
+      scoring$id = 1
+      scoring_2$id = 1
+      scoring_3$id = 1
     }
   )
 
@@ -1174,7 +1182,7 @@ server <- function(input, output, session) {
       hintPressed(FALSE)
       ### scenario A
       if (scoring$id < nrow(bank)) {
-        scoring$id <- scoring$id + 1
+        scoring$id <- 1
         scoring$questionNum <- shuffledProbIDs[scoring$id]
         updateButton(
           session = session,
@@ -1219,7 +1227,7 @@ server <- function(input, output, session) {
       }
       ### scenario B
       if (scoring_2$id < nrow(bank2)) {
-        scoring_2$id <- scoring_2$id + 1
+        scoring_2$id <- 1
         scoring_2$questionNum <- shuffledProbIDs[scoring_2$id]
         updateButton(
           session = session,
@@ -1264,7 +1272,7 @@ server <- function(input, output, session) {
       }
       ### scenario C
       if (scoring_3$id < nrow(bank3)) {
-        scoring_3$id <- scoring_3$id + 1
+        scoring_3$id <- 1
         scoring_3$questionNum <- shuffledProbIDs[scoring_3$id]
         updateButton(
           session = session,
@@ -1410,7 +1418,8 @@ server <- function(input, output, session) {
                 xlim = c(0, 1),
                 na.rm = TRUE,
                 n = 2, 
-                color = "skyblue"
+                color = "skyblue",
+                size = 1.5
               ) +
               theme_bw() +
               labs(
@@ -1552,7 +1561,8 @@ server <- function(input, output, session) {
                 xlim = c(0, 1),
                 na.rm = TRUE,
                 n = 2,
-                color = "skyblue"
+                color = "skyblue",
+                size = 1.5
               ) +
               theme_bw() +
               labs(
@@ -1695,7 +1705,8 @@ server <- function(input, output, session) {
                 xlim = c(0, 1),
                 na.rm = TRUE,
                 n = 2,
-                color = "skyblue"
+                color = "skyblue",
+                size = 1.5
               ) +
               theme_bw() +
               labs(
