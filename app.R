@@ -280,18 +280,18 @@ ui <- list(
             tabPanel( 
               title = "Random: Trials",
               h3("Instructions"),
-              p("For this part, the Trial Number is what we are interested in 
-                and the Success Number is fixed, so", strong("Geometric"), "and ", 
+              p("For this part, the number of trials is what we are interested in 
+                and the number of successes is fixed, so", strong("Geometric"), "and ", 
                 strong("Negative Binomial"), "distributions are suitable. Adjust the sliders
                 for the number of successes, probability of success, and number of sample
-                paths and observe how the graph and sample paths respond."
+                paths and observe how the graph and sample path(s) respond."
                 ),
               br(),
               sidebarLayout(
                 sidebarPanel(
                   sliderInput(
                     inputId = "numSs",
-                    label = "Number of Successes",
+                    label = "Total number of successes",
                     min = 1,
                     max = 10,
                     step = 1,
@@ -299,7 +299,7 @@ ui <- list(
                   ),
                   sliderInput(
                     inputId = "probSuccess",
-                    label = "Probability of Success",
+                    label = "Probability of success",
                     min = 0.1,
                     max = 1,
                     value = 0.3,
@@ -307,7 +307,7 @@ ui <- list(
                   ),
                   sliderInput(
                     inputId = "samPath1",
-                    label = "Number of Sample Paths",
+                    label = "Number of sample paths",
                     min = 1,
                     max = 3,
                     step = 1,
@@ -322,13 +322,13 @@ ui <- list(
                 ),
                 mainPanel(
                   plotOutput(outputId = "trialsPlot", width = "100%"),
-                  p(strong("Key: ")),
+                  p(strong("Key ")),
                   p(img(src = "black dot.webp", width = "30px"),
                         "Black dots represent the sample space."),
                   p(img(src = "steplines.jpg", width = "30px"),
                     "Each line represents one sample path, which is 
                     influenced by the success number and probability of success."),
-                  p(img(src = "rhombus.webp", width = "20px"),
+                  p(img(src = "diamond.png", width = "20px"),
                     " The blue diamond represents the expected value.")
                 )
               )
@@ -336,18 +336,18 @@ ui <- list(
             tabPanel( 
               title = "Random: Successes",
               h3("Instructions"),
-              p("For this part, the Success Number is what we are interested in 
-                and the Trial Number is fixed, so", strong("Bernoulli"), "and ", 
+              p("For this part, the number of successes is what we are interested in 
+                and the number of trials is fixed, so", strong("Bernoulli"), "and ", 
                 strong("Binomial"), "distributions are suitable. Adjust the sliders
                 for the number of trials, probability of success, and number of sample
-                paths and observe how the graph and sample paths respond."
+                paths and observe how the graph and sample path(s) respond."
               ),
               br(),
               sidebarLayout(
                 sidebarPanel(
                   sliderInput(
                     inputId = "numTs",
-                    label = "Number of Trials",
+                    label = "Total number of trials",
                     min = 0,
                     max = 10,
                     step = 1,
@@ -355,7 +355,7 @@ ui <- list(
                   ),
                   sliderInput(
                     inputId = "probSucc",
-                    label = "Probability of Success",
+                    label = "Probability of success",
                     min = 0.1,
                     max = 1,
                     value = 0.3,
@@ -363,7 +363,7 @@ ui <- list(
                   ),
                   sliderInput(
                     inputId = "samPath2",
-                    label = "Number of Sample Paths",
+                    label = "Number of sample paths",
                     min = 1,
                     max = 3,
                     step = 1,
@@ -378,13 +378,13 @@ ui <- list(
                 ),
                 mainPanel(
                   plotOutput(outputId = "successPlot", width = "100%"),
-                  p(strong("Key: ")),
+                  p(strong("Key ")),
                   p(img(src = "black dot.webp", width = "30px"),
                     "Black dots represent the sample space."),
                   p(img(src = "steplines.jpg", width = "30px"),
                     "Each line represents one sample path, which is 
                     influenced by the success number and probability of success."),
-                  p(img(src = "rhombus.webp", width = "20px"),
+                  p(img(src = "diamond.png", width = "20px"),
                     " The blue diamond represents the expected value.")
                 )
               )
@@ -672,6 +672,7 @@ server <- function(input, output, session) {
       # need to fix. I really appreciate for your efforts!
       output$trialsPlot <- renderPlot(
         expr = {
+          axisSuccessNumber <- paste("Success Number out of", input$numSs, "Total")
           a <- ggplot(
             data = points
             ) +
@@ -714,7 +715,8 @@ server <- function(input, output, session) {
               minor_breaks = seq(1, maxTrials, 1),
               expand = expansion(mult = c(0,0.05), add = c(1, 0))
             ) +
-            xlab(label = "Success Number") +
+            labs(title = "Sample Path(s) for Chosen Sample") +
+            xlab(label = axisSuccessNumber) +
             ylab(label = "Trial Number") +
             theme_bw() +
             theme(
@@ -810,6 +812,8 @@ server <- function(input, output, session) {
             xs = temp
           )
           
+          axisTrialNumber <- paste("Trial Number out of", input$numTs, "Total")
+          
           b <- ggplot( 
             data = samSpace) +
             geom_point(aes(x = xs, y = ys), size = 2, na.rm= TRUE) + 
@@ -830,7 +834,8 @@ server <- function(input, output, session) {
               breaks = 0:input$numTs,
               minor_breaks = NULL
             ) +
-            xlab(label = "Trial Number") +
+            labs(title = "Sample Path(s) for Chosen Sample") +
+            xlab(label = axisTrialNumber) +
             ylab(label = "Success Number") +
             theme_bw() + 
             theme(
