@@ -981,9 +981,6 @@ server <- function(input, output, session) {
       output$PlotText <- renderUI({
         return(NULL)
       })
-      scoring$id = 1
-      scoring_2$id = 1
-      scoring_3$id = 1
     }
   )
 
@@ -1104,66 +1101,69 @@ server <- function(input, output, session) {
     handlerExpr = {
       hintPressed(FALSE)
       ######## scenario A
-      if (scoring$id < nrow(bank)) {
-        scoring$id <- scoring$id + 1
-        scoring$questionNum <- shuffledProbIDs[scoring$id]
-      } else {
-        sendSweetAlert(
-          session = session,
-          title = "Out of Questions",
-          type = "info",
-          text = "You've used all of the questions in this scenario, 
-          please go to another one to test yourself."
-        )
-        shuffledProbIDs <- sample(
-          x = seq_len(nrow(bank)),
-          size = nrow(bank),
-          replace = FALSE
-        )
-        scoring$id <- 1
-        scoring$questionNum <- shuffledProbIDs[scoring$id]
-      }
-      
+      if (input$backSce == 'Scenario A') {
+        if (scoring$id < nrow(bank)) {
+          scoring$id <- scoring$id + 1
+          scoring$questionNum <- shuffledProbIDs[scoring$id]
+        } else {
+          sendSweetAlert(
+            session = session,
+            title = "Out of Questions",
+            type = "info",
+            text = "You've used all of the questions in this scenario, 
+            please go to another one to test yourself."
+          )
+          shuffledProbIDs <- sample(
+            x = seq_len(nrow(bank)),
+            size = nrow(bank),
+            replace = FALSE
+          )
+          scoring$id <- 1
+          scoring$questionNum <- shuffledProbIDs[scoring$id]
+        }
       ######## scenario B
-      if (scoring_2$id < nrow(bank2)) {
-        scoring_2$id <- scoring_2$id + 1
-        scoring_2$questionNum <- shuffledProbIDs_2[scoring_2$id]
-      } else {
-        sendSweetAlert(
-          session = session,
-          title = "Out of Questions",
-          type = "info",
-          text = "You've used all of the questions in this scenario,
-          please go to another one to test yourself."
-        )
-        shuffledProbIDs_2 <- sample(
-          x = seq_len(nrow(bank2)),
-          size = nrow(bank2),
-          replace = FALSE
-        )
-        scoring_2$id <- 1
-        scoring_2$questionNum <- shuffledProbIDs_2[scoring_2$id]
-      }
+      } else if (input$backSce == 'Scenario B') {
+        if (scoring_2$id < nrow(bank2)) {
+          scoring_2$id <- scoring_2$id + 1
+          scoring_2$questionNum <- shuffledProbIDs_2[scoring_2$id]
+        } else {
+          sendSweetAlert(
+            session = session,
+            title = "Out of Questions",
+            type = "info",
+            text = "You've used all of the questions in this scenario,
+            please go to another one to test yourself."
+          )
+          shuffledProbIDs_2 <- sample(
+            x = seq_len(nrow(bank2)),
+            size = nrow(bank2),
+            replace = FALSE
+          )
+          scoring_2$id <- 1
+          scoring_2$questionNum <- shuffledProbIDs_2[scoring_2$id]
+        }
       
       ######## scenario C
-      if (scoring_3$id < nrow(bank3)) {
-        scoring_3$id <- scoring_3$id + 1
-        scoring_3$questionNum <- shuffledProbIDs_3[scoring_3$id]
-      } else {
-        sendSweetAlert(
-          session = session,
-          title = "Out of Questions",
-          type = "info",
-          text = "You've used all of the questions in this scenario, 
-          please go to another one to test yourself."
-        )
-        shuffledProbIDs_3 <- sample(
-          x = seq_len(nrow(bank3)),
-          size = nrow(bank3),
-          replace = FALSE
-        )
-        scoring_3$id <- 1
-        scoring_3$questionNum <- shuffledProbIDs_3[scoring_3$id]
+      } else if (input$backSce == 'Scenario C') {
+        if (scoring_3$id < nrow(bank3)) {
+          scoring_3$id <- scoring_3$id + 1
+          scoring_3$questionNum <- shuffledProbIDs_3[scoring_3$id]
+        } else {
+          sendSweetAlert(
+            session = session,
+            title = "Out of Questions",
+            type = "info",
+            text = "You've used all of the questions in this scenario, 
+            please go to another one to test yourself."
+          )
+          shuffledProbIDs_3 <- sample(
+            x = seq_len(nrow(bank3)),
+            size = nrow(bank3),
+            replace = FALSE
+          )
+          scoring_3$id <- 1
+          scoring_3$questionNum <- shuffledProbIDs_3[scoring_3$id]
+        }
       }
       
       updateButton(
@@ -1187,7 +1187,7 @@ server <- function(input, output, session) {
       hintPressed(FALSE)
       ### scenario A
       if (scoring$id < nrow(bank)) {
-        scoring$id <- 1
+        scoring$id <- scoring$id + 1
         scoring$questionNum <- shuffledProbIDs[scoring$id]
         updateButton(
           session = session,
@@ -1232,7 +1232,7 @@ server <- function(input, output, session) {
       }
       ### scenario B
       if (scoring_2$id < nrow(bank2)) {
-        scoring_2$id <- 1
+        scoring_2$id <- scoring_2$id + 1
         scoring_2$questionNum <- shuffledProbIDs[scoring_2$id]
         updateButton(
           session = session,
@@ -1277,7 +1277,7 @@ server <- function(input, output, session) {
       }
       ### scenario C
       if (scoring_3$id < nrow(bank3)) {
-        scoring_3$id <- 1
+        scoring_3$id <- scoring_3$id + 1
         scoring_3$questionNum <- shuffledProbIDs[scoring_3$id]
         updateButton(
           session = session,
@@ -1322,9 +1322,8 @@ server <- function(input, output, session) {
       }
     })
   
-  hintPressed <- reactiveVal(FALSE)
-  
   ### display hint ----
+  hintPressed <- reactiveVal(FALSE)
   observeEvent(
     eventExpr = input$hint,
     handlerExpr = {
