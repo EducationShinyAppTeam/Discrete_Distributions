@@ -125,16 +125,16 @@ ui <- list(
             p(
               tags$strong("Distributions: "), "A probability distribution is a function that maps the probability
               for all potential events associated with a", tags$strong("random variable"), "(function that assigns a number to each 
-              outcome in an event). Distributions can be either", tags$strong("discrete,"), "where the data takes on only
-              specific values (like shoe sizing that comes in half or full size increments), or", tags$strong("continuous,"), "where the data can take on any 
-              decimal value within a certain interval (like volume or mass). But, in this app, we will be exclusively examining 
+              outcome in any event). Distributions can be either", tags$strong("discrete,"), "where the data takes on only
+              specific values (like shoe size that comes in half or full size increments), or", tags$strong("continuous,"), "where the data can take on any 
+              value within a certain interval (like volume or mass). But, in this app, we will be exclusively examining 
               discrete distributions.",
               br(),
               br(),
               tags$strong("PMF: "), "The probability mass function, or PMF, of a discrete distribution is a function
-              that describes how likely possible values in a random variable are to occur. The", tags$strong("CDF"), "(cumulative distribution function)
+              that describes how likely possible values of a random variable are to occur. The", tags$strong("CDF"), "(cumulative distribution function)
               of a random variable is another helpful function that displays the probability that a random variable is less than or equal to
-              than a particular value.",
+              a particular value.",
               br(),
               br(),
               tags$strong("Expected Value: "), 'The expected value for a random variable is a measure of 
@@ -695,7 +695,7 @@ server <- function(input, output, session) {
               mapping = aes(x = cSuccess, y = trial),
               color = psuPalette[1],
               na.rm = TRUE,
-              size = 1
+              linewidth = 1
             ) +
             geom_image(
               inherit.aes = FALSE,
@@ -729,7 +729,7 @@ server <- function(input, output, session) {
               mapping = aes(x = cSuccess, y = trial),
               na.rm = TRUE,
               color = psuPalette[2],
-              size = 1,
+              linewidth = 1,
               position = position_nudge( x = 0.02, y = 0.02)
             )
           }
@@ -740,7 +740,7 @@ server <- function(input, output, session) {
               mapping = aes(x = cSuccess, y = trial),
               na.rm = TRUE,
               color = psuPalette[2],
-              size = 1,
+              linewidth = 1,
               position = position_nudge( x = 0.02, y = 0.02) 
             ) + 
               geom_step(
@@ -748,7 +748,7 @@ server <- function(input, output, session) {
                 mapping = aes(x = cSuccess, y = trial),
                 na.rm = TRUE,
                 color = psuPalette[3],
-                size = 1,
+                linewidth = 1,
                 position = position_nudge( x = -0.02, y = -0.02) 
               )
           }
@@ -842,10 +842,10 @@ server <- function(input, output, session) {
               text = element_text(size = 18)
             )
           
-          for (i in 1:input$samPath2){ 
+          for (i in 1:input$samPath2) { 
             b <- b + geom_step(data = samPath, 
-                               aes_string(x = "trial", 
-                                          y = as.name(paste0("sumSuccess",i))),
+                               aes(x = .data[["trial"]], 
+                                   y = .data[[paste0("sumSuccess",i)]]),
                                color = psuPalette[i], 
                                na.rm = TRUE,
                                position = position_nudge(
@@ -855,7 +855,7 @@ server <- function(input, output, session) {
                                  y = if_else( 
                                    i == 1, 0, if_else(i == 2, 0.02, -0.02))
                                  ),
-                               size = 1)
+                               linewidth = 1)
           }
           b
         },
