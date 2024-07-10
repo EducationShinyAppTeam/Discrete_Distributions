@@ -107,7 +107,7 @@ ui <- list(
             citeApp(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 6/27/2024 by NP.")
+            div(class = "updated", "Last Update: 07/10/2024 by NP.")
           )
         ),
         #### Set up the Prerequisites Page ----
@@ -115,6 +115,8 @@ ui <- list(
           tabName = "prerequisites",
           withMathJax(),
           h2("Background and Types of Distributions"),
+          p('Go through each tab to further your understanding about discrete distributions.
+            Click on the plus sign to the right of the tab name to expand/minimize it.'),
           br(),
           box(
             title = "Background Information",
@@ -247,7 +249,7 @@ ui <- list(
             title = "Summary",
             status = "primary",
             collapsible = TRUE,
-            collapsed = FALSE,
+            collapsed = TRUE,
             width = '100%',
             p(
               tags$strong("Binomial"), "and", 
