@@ -1,6 +1,0 @@
-﻿fun,geom,args,xlim,n,xlab,ylab
-dbinom,"""bar""","list(size = 8, prob = 0.2)","c(0,8)",9,Number of red balls,Prob. of a specific number of red balls
-dnbinom,"""bar""","list(size = 3, prob = 0.2)","c(0, 55)",56,Number of balls drawn out before we get three red balls,Prob. of seeing three red balls in a specific number of trials
-dgeom,"""bar""",list(prob = 0.2),"c(0, 33)",34,Number of balls drawn out before we get the first red ball,Prob. of seeing the first red ball in a specific trial number
-dbern,"""line""",list(prob = 0.2),"c(0, 1)",2,Number of times drawn out,Prob. of getting a red ball in one trial
-dhyper,"""bar""","list(m = 6, n = 24, k = 8)","c(0, 6)",7,Number of red balls drawn,Prob. of getting specific amount of red balls out of eight draws
