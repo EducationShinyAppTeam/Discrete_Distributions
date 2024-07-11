@@ -4,9 +4,11 @@ Date: 2021-07-26
 Lifecycle: experimental
 Authors@R: c(
     person(given = "Yijun", family = "Yao", email = "ymy5178@psu.edu", role = c("aut", "cre")),
-    person(given = "Nathan", family = "Pechulis", role = c("ctb"))
+    person(given = "Nathan", family = "Pechulis", role = c("ctb")),
+    person(given = "Dennis", family = "Pearl", role = c("aut")),
+    person(given = "Neil", family = "Hatfield", role = c("aut"))
   )
-Chapter: Chapter 4
+Chapter: Chapter 5A
 Description: This app is focused on discrete distributions. It also explores sample spaces and sample paths of different distributions.
 LearningObjectives: c(
     "The student will know the difference and similarities between types of discrete distributions.",
