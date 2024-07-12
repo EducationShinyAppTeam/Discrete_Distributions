@@ -1,6 +1,94 @@
-id,question,A,B,C,D,E,answer,Feedback,Plot,ansValue
-1,We take out eight balls one at a time from the box with replacement. How many of them are red balls?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,B,"Number of trials is fixed in this situation, and what of interest is number of successes. ","plot(0:5, dbinom(0:5, size = 8, prob = 0.2), type = ""h"")",Binomial
-2,We take balls out of the box one at a time with replacement. How many times are needed until we get three red balls?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,E,"In this situation, number of successes is fixed and what we want to know is the number of trials. ","plot(dnbinom(0:30, size = 3, prob = 0.2), type = 'h')",Negative Binomial
-3,We take balls out of the box one at a time with replacement. How many times are needed until the first red ball is taken out? ,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,D,What we want to know is the number of trials until we see the first success. ,"plot(dgeom(0:30, 0.2), type = 'h')",Geometric
-4,We draw one ball out of the box. What is the probability of taking out a red ball?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,A,"Because the trial number is only one,","plot(dbern(0:30, prob = 0.2), type = ""o"")",Bernoulli
-5,We take out eight balls from the box without replacement. How many of them are red balls?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,C,Number of trials is fixed and the probability of success changes (without replacement) .,"plot(dhyper(0:5, 5, 25, 8), type = ""h"")",Hypergeometric
+id,scenario,scenarioText,question,A,B,C,D,E,answer,ansValue,feedback,aria,fun,geom,args,xlim,n,xlab,ylab
+1,Scenario A,There are 30 balls in a box and 6 of them are red.,We take out eight balls one at a time from the box with replacement. How many of them are red balls?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,B,Binomial,"Number of trials is fixed in this situation, and what of interest is number of successes. ","This chart has title 'PMF Graph'.
+          It has x-axis 'Number of red balls' with labels 0, 2, 4, 6 and 8.
+          It has y-axis 'Prob. of a specific number of red balls' with labels 0.0, 0.1, 0.2 and 0.3.
+          The chart is a bar chart with 6 vertical bars.
+          Bar 1 is centered at 0, and length is from 0 to 0.17.
+          Bar 2 is centered at 1, and length is from 0 to 0.34.
+          Bar 3 is centered at 2, and length is from 0 to 0.29.
+          Bar 4 is centered at 3, and length is from 0 to 0.15.
+          Bar 5 is centered at 4, and length is from 0 to 0.05.
+          Bar 6 is centered at 5, and length is from 0 to 0.01.",dbinom,"""bar""","list(size = 8, prob = 0.2)","c(0, 8)",9,Number of red balls,Prob. of a specific number of red balls
+2,Scenario A,There are 30 balls in a box and 6 of them are red.,We take balls out of the box one at a time with replacement. How many times are needed until we get three red balls?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,E,Negative Binomial,"In this situation, number of successes is fixed and what we want to know is the number of trials. ","This chart has title 'PMF Graph'.
+          It has x-axis 'Number of balls drawn out before we get three red balls' with labels 0, 10, 20, 30, 40 and 50.
+          It has y-axis 'Prob. of seeing three red balls in a specific trial number' with labels 0.000, 0.025, 0.050, 0.075 and 0.100.
+          The chart is a bar chart with 56 vertical bars.
+          From 0 to 10, there is a steep increase to about 0.060 in probability (started near zero), then it gradually trails off until probability approaches 0 around 50.",dnbinom,"""bar""","list(size = 3, prob = 0.2)","c(0, 55)",56,Number of balls drawn out before we get three red balls,Prob. of seeing three red balls in a specific number of trials
+3,Scenario A,There are 30 balls in a box and 6 of them are red.,We take balls out of the box one at a time with replacement. How many times are needed until the first red ball is taken out? ,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,D,Geometric,What we want to know is the number of trials until we see the first success. ,"This chart has title 'PMF Graph'.
+          It has x-axis 'Number of balls drawn out before we get the first red ball' with labels 0, 10, 20 and 30.
+          It has y-axis 'Prob. of seeing the first red ball in a specific trial number' with labels 0.00, 0.05, 0.10, 0.15, 0.20 and 0.25.
+          The chart is a bar chart with 34 vertical bars.
+          The probability starts at 0.2 at 0 with a steep decrease until it approaches probability 0 around 25.",dgeom,"""bar""",list(prob = 0.2),"c(0, 33)",34,Number of balls drawn out before we get the first red ball,Prob. of seeing the first red ball in a specific trial number
+4,Scenario A,There are 30 balls in a box and 6 of them are red.,We draw one ball out of the box. What is the probability of taking out a red ball?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,A,Bernoulli,"Because the trial number is only one,","This chart has title 'PMF Graph'.
+          It has x-axis 'Number of times drawn out' with labels 0.00, 0.25, 0.50, 0.75 and 1.00.
+          It has y-axis 'Prob. of getting a red ball in one trial' with labels 0.2, 0.4, 0.6 and 0.8.
+          The chart is a set of 1 line.
+          Line 1 connects 2 points, at (0, 0.8) and (1, 0.2).",dbern,"""line""",list(prob = 0.2),"c(0, 1)",2,Number of times drawn out,Prob. of getting a red ball in one trial
+5,Scenario A,There are 30 balls in a box and 6 of them are red.,We take out eight balls from the box without replacement. How many of them are red balls?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,C,Hypergeometric,Number of trials is fixed and the probability of success changes (without replacement) .,"This chart has title 'PMF Graph'.
+          It has x-axis 'Number of red balls drawn' with labels 0, 2, 4 and 6.
+          It has y-axis 'Prob. of getting specific amount of red balls out of eight draws' with labels 0.0, 0.1, 0.2, 0.3 and 0.4.
+          The chart is a bar chart with 5 vertical bars.
+          Bar 1 is centered at 0, and length is from 0 to 0.13.
+          Bar 2 is centered at 1, and length is from 0 to 0.35.
+          Bar 3 is centered at 2, and length is from 0 to 0.34.
+          Bar 4 is centered at 3, and length is from 0 to 0.15.
+          Bar 5 is centered at 4, and length is from 0 to 0.03.",dhyper,"""bar""","list(m = 6, n = 24, k = 8)","c(0, 6)",7,Number of red balls drawn,Prob. of getting specific amount of red balls out of eight draws
+1,Scenario B,"In Pennsylvania, 10% of vehicles order a Big Mac in the drive thru window of McDonalds.",What is the probability that 5 of next 7 cars order a Big Mac?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,B,Binomial,"Because the trial number is only one,","This chart has title 'PMF Graph'.
+            It has x-axis 'Number of cars that order a Big Mac' with labels 0, 2, 4, 6 and 8.
+            It has y-axis 'Prob. of that amount of vehicles ordering a Big Mac in 7 cars' with labels 0.0, 0.1, 0.2, 0.3, 0.4 and 0.5.
+            The chart is a bar chart with 4 vertical bars.
+            Bar 1 is centered at 0, and length is from 0 to 0.48.
+            Bar 2 is centered at 1, and length is from 0 to 0.37.
+            Bar 3 is centered at 2, and length is from 0 to 0.12.
+            Bar 4 is centered at 3, and length is from 0 to 0.02.",dbinom,"""bar""","list(size = 7, prob = 0.1)","c(0, 8)",9,Number of cars that order a Big Mac,Prob. of that amount of vehicles ordering a Big Mac in 7 cars
+2,Scenario B,"In Pennsylvania, 10% of vehicles order a Big Mac in the drive thru window of McDonalds.",How many cars pass the drive thru window until someone orders a Big Mac?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,D,Geometric,What we want to know is the number of trials until we see the first success. ,"This chart has title 'PMF Graph'.
+            It has x-axis 'Number of vehicles' with labels 0, 10, 20, 30, 40 and 50.
+            It has y-axis 'Prob. of seeing first car order a Big Mac in fixed number of vehicles' with labels 0.00, 0.05, 0.10 and 0.15.
+            The chart is a bar chart with 46 vertical bars.
+            The probability starts at 0.1 at 0 with a steady decrease that approaches 0 probability around 45.",dgeom,"""bar""",list(prob = 0.1),"c(0, 45)",46,Number of vehicles,Prob. of seeing first car order a Big Mac in fixed number of vehicles
+3,Scenario B,"In Pennsylvania, 10% of vehicles order a Big Mac in the drive thru window of McDonalds.",How many cars pass the drive thru window until there are three cars ordering a Big Mac? ,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,E,Negative Binomial,"In this situation, number of successes is fixed and what we want to know is the number of trials. ","This chart has title 'PMF Graph'.
+            It has x-axis 'Number of vehicles' with labels 0, 25, 50 and 75.
+            It has y-axis 'Prob. of 3 cars ordering a Big Mac in a fixed number of vehicles' with labels 0.00, 0.02, 0.04 and 0.06.
+            The chart is a bar chart with 96 vertical bars.
+            There is a steady increase from 0 to 20 from probability 0 to about 0.03, then it gradually decreases and approaches probability 0 until about 100.",dnbinom,"""bar""","list(size = 3, prob = 0.1)","c(0, 95)",96,Number of vehicles,Prob. of 3 cars ordering a Big Mac in a fixed number of vehicles
+4,Scenario B,"In Pennsylvania, 10% of vehicles order a Big Mac in the drive thru window of McDonalds.",What is the probability that the next car orders a Big Mac?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,A,Bernoulli,"Number of trials is fixed in this situation, and what of interest is number of successes. ","This chart has title 'PMF Graph'. 
+It has x-axis 'Number of vehicles' with labels 0.00, 0.25, 0.5,  0.75 and 1.00. 
+It has y-axis 'Prob. of seeing a car order a Big Mac' with labels 0.25,  0.50 and 0.75.
+The chart is a set of 1 line.
+Line 1 connects 2 points  at (0, 0.9) and (1, 0.1).",dbern,"""line""",list(prob = 0.1),"c(0, 1)",2,Number of vehicles,Prob. of seeing a car order a Big Mac
+5,Scenario B,"In Pennsylvania, 10% of vehicles order a Big Mac in the drive thru window of McDonalds.",5 of the next 7 cars order a Big Mac. What is the probability that 3 of the next 4 cars order a Big Mac?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,C,Hypergeometric,"Number of trials is fixed in this situation, and what of interest is number of successes. ","This chart has title 'PMF Graph'.
+            It has x-axis 'Number of cars that order a Big Mac' with labels 0, 2, 4 and 6.
+            It has y-axis 'Prob. of seeing fixed number of cars order Big Mac in four vehicles' with labels 0.0, 0.2, 0.4 and 0.6.
+            The chart is a bar chart with 3 vertical bars.
+            Bar 1 is centered at 2, and length is from 0 to 0.29.
+            Bar 2 is centered at 3, and length is from 0 to 0.57.
+            Bar 3 is centered at 4, and length is from 0 to 0.14.",dhyper,"""bar""","list(m = 5, n = 2, k = 4)","c(0, 6)",7,Number of cars that order a Big Mac,Prob. of seeing a fixed number of cars order Big mac in four vehicles
+1,Scenario C,40% of the people in a college town have type A blood. There is a Red Cross Station where people from the town donate blood.,What is the probability that a donor has type A blood?  ,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,A,Bernoulli,"Because the trial number is only one,","This chart has title 'PMF Graph'.
+            It has x-axis 'Number of donors' with labels 0.00, 0.25, 0.50, 0.75 and 1.00.
+            It has y-axis 'Prob. of a donor having type A blood' with labels 0.40, 0.45, 0.50, 0.55, 0.60 and 0.65.
+            The chart is a set of 1 line.
+            Line 1 connects 2 points, at (0, 0.6) and (1, 0.4).",dbern,"""line""",list(prob = 0.4),"c(0, 1)",2,Number of donors,Prob. of a donor having type A blood
+2,Scenario C,40% of the people in a college town have type A blood. There is a Red Cross Station where people from the town donate blood.,How many people went to this blood donation station until the first type A blood donor appears?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,D,Geometric,What we want to know is the number of trials until we see the first success. ,"This chart has title 'PMF Graph'.
+            It has x-axis 'Number of donors' with labels 0, 5, 10 and 15.
+            It has y-axis 'Prob. of the first type A blood donor going to the station' with labels 0.0, 0.1, 0.2, 0.3 and 0.4.
+            The chart is a bar chart with 12 vertical bars.
+            It starts at probability 0.4 at 0 with a steep decrease down to 0 probability until 10.",dgeom,"""bar""",list(prob = 0.4),"c(0, 18)",19,Number of donors,Prob. of the first type A blood donor going to the station
+3,Scenario C,40% of the people in a college town have type A blood. There is a Red Cross Station where people from the town donate blood.,"One day, 10 donators went to this blood donation station. What is the probability that 6 among these 10 people have type A blood?",Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,B,Binomial,"Number of trials is fixed in this situation, and what of interest is number of successes. ","This chart has title 'PMF Graph'.
+            It has x-axis 'Number of type A blood donors' with labels 0, 2, 4, 6, 8 and 10.
+            It has y-axis 'Prob. of a specific number of type A blood donors in 10 donors' with labels 0.0, 0.1, 0.2 and 0.3.
+            The chart is a bar chart with 11 vertical bars.
+            There is a bell curve shape from 0 to 9 and the probability reaches 0.25 at the peak, which is at 4.",dbinom,"""bar""","list(size = 10, prob = 0.4)","c(0, 10)",11,Number of type A blood donors,Prob. of a specific number of type A blood donors in 10 donors
+4,Scenario C,40% of the people in a college town have type A blood. There is a Red Cross Station where people from the town donate blood.,How many people went to this blood donation station until there are four type A blood donors?,Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,E,Negative Binomial,"In this situation, number of successes is fixed and what we want to know is the number of trials. ","This chart has title 'PMF Graph'.
+            It has x-axis 'Number of donors' with labels 0, 5, 10, 15, 20 and 25.
+            It has y-axis 'Prob. of 4 type A blood donors going to the station' with labels 0.00, 0.04, 0.08, 0.12 and 0.16.
+            The chart is a bar chart with 26 vertical bars.
+            There is a steady increase from 0 to 5 up to probability 0.12 (started near probability 0.02), then it begins to decrease and gradually approaches probability 0 until about 25.",dnbinom,"""bar""","list(size = 4, prob = 0.4)","c(0, 25)",26,Number of donors,Prob. of 4 type A blood donors going to the station
+5,Scenario C,40% of the people in a college town have type A blood. There is a Red Cross Station where people from the town donate blood.,"On the 17th of September twelve people went to this station to donate blood. Among these 12 people, 5 people have type A blood. What is the probability that 3 of the first 5 donors that day had type A blood?",Bernoulli,Binomial,Hypergeometric,Geometric,Negative Binomial,C,Hypergeometric,"In this situation, number of successes is fixed and what we want to know is the number of trials. ","This chart has title 'PMF Graph'.
+            It has x-axis 'Number of type A blood donors' with labels 0, 2, 4 and 6.
+            It has y-axis 'Prob. of seeing specific number of type A blood donors in 5 donors' with labels 0.0, 0.1, 0.2, 0.3 and 0.4.
+            The chart is a bar chart with 5 vertical bars.
+            Bar 1 is centered at 0, and length is from 0 to 0.03.
+            Bar 2 is centered at 1, and length is from 0 to 0.22.
+            Bar 3 is centered at 2, and length is from 0 to 0.44.
+            Bar 4 is centered at 3, and length is from 0 to 0.27.
+            Bar 5 is centered at 4, and length is from 0 to 0.04.",dhyper,"""bar""","list(m = 5, n = 7, k = 5)","c(0, 6)",7,Number of type A blood donors,Prob. of seeing specific number of type A blood donors in 5 donors
