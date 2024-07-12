@@ -63,10 +63,11 @@ ui <- list(
           h1("Discrete Distributions"),
           p("This app focuses on Bernoulli, Binomial, Hypergeometric,
             Geometric and Negative Binomial distributions.
-            It will explore different sample spaces and sample paths for both categories of discrete
-            distributions through an interactive graph.
-            Also, it will help users to choose the suitable distribution in a real-world
-            scenario and show the probability mass function graphs about that distribution."),
+            It will explore different sample spaces and sample paths for both
+            categories of discrete distributions through an interactive graph.
+            Also, it will help users to choose the suitable distribution in a
+            real-world scenario and show the probability mass function graphs
+            about that distribution."),
           h2("Instructions"),
           tags$ol(
             tags$li("Basic information about these distributions is introduced
@@ -123,27 +124,37 @@ ui <- list(
             collapsed = FALSE,
             width = '100%',
             p(
-              tags$strong("Distributions: "), "A probability distribution is a function that maps the probability
-              for all potential events associated with a", tags$strong("random variable"), "(function that assigns a number to each
-              outcome in any event). Distributions can be either", tags$strong("discrete,"), "where the data takes on only
-              specific values (like shoe size that comes in half or full size increments), or", tags$strong("continuous,"), "where the data can take on any
-              value within a certain interval (like volume or mass). But, in this app, we will be exclusively examining
-              discrete distributions.",
+              # Fix!!
+              tags$strong("Distributions: "), "A probability distribution is a
+              function that maps the probability for all potential events
+              associated with a", tags$strong("random variable"), "(function that
+              assigns a number to each outcome in any event). Distributions can
+              be either", tags$strong("discrete,"), "where the data takes on only
+              specific values (like shoe size that comes in half or full size
+              increments), or", tags$strong("continuous,"), "where the data can
+              take on any value within a certain interval (like volume or mass).
+              But, in this app, we will be exclusively examining discrete
+              distributions.",
               br(),
               br(),
-              tags$strong("PMF: "), "The probability mass function, or PMF, of a discrete distribution is a function
-              that describes how likely possible values of a random variable are to occur. The", tags$strong("CDF"), "(cumulative distribution function)
-              of a random variable is another helpful function that displays the probability that a random variable is less than or equal to
-              a particular value.",
+              tags$strong("PMF: "), "The probability mass function, or PMF, of a
+              discrete distribution is a function that describes how likely possible
+              values of a random variable are to occur. The", tags$strong("CDF"),
+              "(Cumulative Distribution Function) of a random variable is another
+              helpful function that displays the probability that a random variable
+              is less than or equal to a particular value.",
               br(),
               br(),
-              tags$strong("Expected Value: "), 'The expected value for a random variable is a measure of
-              its central tendency and is a synonym for the mean. It is denoted by "E(X)," and it can be calculated by summing
-              over the possible values times the chance of those values.',
+              tags$strong("Expected Value: "), "The expected value for a random
+              variable is a measure of its central tendency and is a synonym for
+              the mean. It is denoted by \\(E(X)\\), and it can be calculated by
+              summing over the products of each possible value and the probability
+              of observing that value.",
               br(),
               br(),
-              tags$strong("Sample Path: "), "A sample path is essentially a sequence that demonstrates the possible steps that are
-              taken by a variable as each trial of the underlying process occurs."
+              tags$strong("Sample Path: "), "A sample path is essentially a
+              sequence that demonstrates the possible steps that are taken by a
+              variable as each trial of the underlying process occurs."
             )
           ),
           box(
@@ -154,12 +165,13 @@ ui <- list(
             width = '100%',
             p(
               tags$strong("Description: "), "A Bernoulli variable, X, is a
-              discrete variable which has only two outcomes: 1 (success) and 0 (failure).",
+              discrete variable which has only two outcomes: 1 (success) and 0
+              (failure).",
               tags$em('p'), "is the probability of 1.",
               br(),
-              tags$strong("Notation: "), HTML("X ~ Bern(<em>p</em>)"),
+              tags$strong("Notation: "), "\\(X\\sim \\text{Bern}(p)\\)",
               br(),
-              tags$strong("E(X): "), tags$em("p")
+              "\\(E(X) = p\\)"
             )
           ),
           box(
@@ -170,19 +182,20 @@ ui <- list(
             width = '100%',
             p(
               tags$strong("Description: "), "A Binomial variable, X,
-              is a discrete variable measuring the number of successes in", tags$em('n'),
-              "independent experiments with probability", tags$em('p'), "of success in each
-              trial. It is drawn with replacement, which means drawn items
-              are replaced in the sample space, so", tags$em('p'), "stays the same for each
-              trial and trials are independent and identically distributed (iid).",
+              is a discrete variable measuring the number of successes in",
+              tags$em('n'), "independent experiments with probability",
+              tags$em('p'), "of success in each trial. It is drawn with replacement,
+              which means drawn items are replaced in the sample space, so",
+              tags$em('p'), "stays the same for each trial and trials are
+              independent and identically distributed (iid).",
               br(),
-              tags$strong("Notation: "), HTML("X ~ Bin(<em>n</em>, <em>p</em>)"),
+              tags$strong("Notation: "), "\\(X\\sim\\text{Bin}(n, p)\\)",
               br(),
-              tags$strong("Special Case: "), "Since a Binomial variable is", tags$em("n"),
-              "iid Bernoulli variables,", HTML("Bern(<em>p</em>)"), "is equivalent to",
-              HTML("Bin(<em>n</em> = 1, <em>p</em>)."),
+              tags$strong("Special Case: "), "Since a Binomial variable is the
+              sum of", tags$em("n"), "iid Bernoulli variables, \\(\\text{Bern}(p)\\)
+              is equivalent to \\(\\text{Bin}(n=1,p)\\)",
               br(),
-              tags$strong("E(X): "), tags$em("np")
+              "\\(E(X)=np\\)"
             )
           ),
           box(
@@ -200,9 +213,9 @@ ui <- list(
               drawn items are not replaced in the sample space and thus the
               probability of success changes for each trial",
               br(),
-              tags$strong("Notation: "), HTML("X ~ HG(<em>n</em>, <em>M</em>, <em>N</em>)"),
+              tags$strong("Notation: "), "\\(X\\sim\\text{HG}(n, M, N)\\)",
               br(),
-              tags$strong("E(X): "), HTML("<em>nM/N</em>")
+              "\\(E(X)=(nM)/N\\)"
             )
           ),
           box(
@@ -217,9 +230,9 @@ ui <- list(
               trials until the", tags$strong("first"), "success where each trial
               has probability", tags$em('p'), "of success.",
               br(),
-              tags$strong("Notation: "), HTML("X ~ Geom(<em>p</em>)"),
+              tags$strong("Notation: "), "\\(X\\sim\\text{Geom}(p)\\)",
               br(),
-              tags$strong("E(X): "), HTML("1/<em>p</em>")
+              "\\(E(X)=1/p\\)"
             )
           ),
           box(
@@ -234,13 +247,13 @@ ui <- list(
               trials before the", tags$strong("rth"), "success where each trial has
               probability", tags$em('p'), "of success.",
               br(),
-              tags$strong("Notation: "), HTML("X ~ NBin(<em>r</em>, <em>p</em>)"),
+              tags$strong("Notation: "), "\\(X\\sim\\text{NBin}(r, p)\\)",
               br(),
               tags$strong("Special Case: "), "Since a Negative Binomial variable is
-              an extension of the Geometric variable,", HTML('Geom(<em>p</em>)'),
-              "is equivalent to", HTML('NBin(<em>r</em> = 1, <em>p</em>).'),
+              an extension of the Geometric variable, \\(\\text{Geom(p)\\) is
+              equivalent to \\(\\text{NBin}(r=1, p)\\).",
               br(),
-              tags$strong("E(X): "), HTML("<em>r/p</em>")
+              "\\(E(X)=r/p\\)"
             )
           ),
           box(
@@ -253,16 +266,14 @@ ui <- list(
               tags$strong("Binomial"), "and",
               tags$strong("Hypergeometric"),
               "distributions: the number of trials is ", strong("fixed and known"),
-              "while the number of successes is the ",
-              strong("random variable"), "of interest.",
+              "while the number of successes is the ",strong("random variable"),
+              "of interest.",
               br(),
               br(),
-              tags$strong("Geometric"), "and",
-              tags$strong("Negative Binomial"),
+              tags$strong("Geometric"), "and", tags$strong("Negative Binomial"),
               "distributions: the number of trials is the ",
-              strong("random variable"),
-              "of interest while the number of successes is",
-              strong("fixed and known. ")
+              strong("random variable"), "of interest while the number of
+              successes is", strong("fixed and known.")
             )
           )
         ),
@@ -279,10 +290,11 @@ ui <- list(
               title = "Random: Trials",
               h3("Instructions"),
               p("For this part, the number of trials is what we are interested in
-                and the number of successes is fixed, so", strong("Geometric"), "and ",
-                strong("Negative Binomial"), "distributions are suitable. Adjust the sliders
-                for the number of successes, probability of success, and number of sample
-                paths and observe how the graph and sample path(s) respond."
+                and the number of successes is fixed, so", strong("Geometric"),
+                "and ", strong("Negative Binomial"), "distributions are suitable.
+                Adjust the sliders for the number of successes, probability of
+                success, and number of sample paths and observe how the graph and
+                sample path(s) respond."
                 ),
               br(),
               fluidRow(
@@ -338,11 +350,12 @@ ui <- list(
             tabPanel(
               title = "Random: Successes",
               h3("Instructions"),
-              p("For this part, the number of successes is what we are interested in
-                and the number of trials is fixed, so", strong("Bernoulli"), "and ",
-                strong("Binomial"), "distributions are suitable. Adjust the sliders
-                for the number of trials, probability of success, and number of sample
-                paths and observe how the graph and sample path(s) respond."
+              p("For this part, the number of successes is what we are interested
+                in and the number of trials is fixed, so", strong("Bernoulli"),
+                "and ", strong("Binomial"), "distributions are suitable. Adjust
+                the sliders for the number of trials, probability of success, and
+                number of sample paths and observe how the graph and sample
+                path(s) respond."
               ),
               br(),
               fluidRow(
@@ -407,8 +420,8 @@ ui <- list(
               The graph of the probability mass function will appear as a hint
               when you click the 'Hint' button. The game is won when you get 5
               correct answers, but keep in mind that the man will fall off of the
-              tree after 4 incorrect guesses and the game will be over. If you lose,
-              use the 'Restart' button to reset your progress."),
+              tree after 4 incorrect guesses and the game will be over. If you
+              lose, use the 'Restart' button to reset your progress."),
           selectInput(
             inputId = "backSce",
             label = "Background Scenario",
@@ -996,6 +1009,11 @@ server <- function(input, output, session) {
           inputId = "submit",
           disabled = FALSE
         )
+        updateButton(
+          session = session,
+          inputId = "nextQuestion",
+          disabled = TRUE
+        )
         output$mark <- renderIcon()
         output$feedback <- renderUI({NULL})
         output$hintPlot <- renderUI({NULL})
@@ -1017,60 +1035,70 @@ server <- function(input, output, session) {
   observeEvent(
     eventExpr = input$submit,
     handlerExpr = {
-      #### Update buttons ----
-      updateButton(
-        session = session,
-        inputId = "submit",
-        disabled = TRUE
-      )
-      updateButton(
-        session = session,
-        inputId = "nextQuestion",
-        disabled = FALSE
-      )
-      #### Filter Game Questions ----
-      filteredQuestions <- gameQuestions() %>%
-        filter(scenario == input$backSce)
-
-      #### Check Answer ----
-      if (input$mc1 == filteredQuestions$ansValue[gameVariables$currentIndex]) {
-        output$mark <- renderIcon(icon = "correct", width = 50)
-        gameVariables$correct <- gameVariables$correct + 1
-        output$feedback <- renderUI({p("Correct!")})
+      #### Check first for null input ----
+      if (is.null(input$mc1)) {
+        sendSweetAlert(
+          session = session,
+          title = "Enter an Answer",
+          type = "warning",
+          text = "Please select one of the options listed to answer the question."
+        )
       } else {
-        output$mark <- renderIcon(icon = "incorrect", width = 50)
-        gameVariables$mistakes <- gameVariables$mistakes + 1
-        output$feedback <- renderUI({
-          p(filteredQuestions$feedback[gameVariables$currentIndex])
-        })
-      }
+        #### Update buttons ----
+        updateButton(
+          session = session,
+          inputId = "submit",
+          disabled = TRUE
+        )
+        updateButton(
+          session = session,
+          inputId = "nextQuestion",
+          disabled = FALSE
+        )
+        #### Filter Game Questions ----
+        filteredQuestions <- gameQuestions() %>%
+          filter(scenario == input$backSce)
 
-      #### Game Over Check ----
-      if (gameVariables$correct >= WINSCORE) {
-        sendSweetAlert(
-          session = session,
-          title = "You Win!",
-          type = "success",
-          text = "You have won the game! Congrats!"
-        )
-        updateButton(
-          session = session,
-          inputId = "nextQuestion",
-          disabled = TRUE
-        )
-      } else if (gameVariables$mistakes  >= 4) {
-        sendSweetAlert(
-          session = session,
-          title = "You lost.",
-          type = "error",
-          text = "You have lost the game. Please try again.",
-          closeOnClickOutside = FALSE
-        )
-        updateButton(
-          session = session,
-          inputId = "nextQuestion",
-          disabled = TRUE
-        )
+        #### Check Answer ----
+        if (input$mc1 == filteredQuestions$ansValue[gameVariables$currentIndex]) {
+          output$mark <- renderIcon(icon = "correct", width = 50)
+          gameVariables$correct <- gameVariables$correct + 1
+          output$feedback <- renderUI({p("Correct!")})
+        } else {
+          output$mark <- renderIcon(icon = "incorrect", width = 50)
+          gameVariables$mistakes <- gameVariables$mistakes + 1
+          output$feedback <- renderUI({
+            p(filteredQuestions$feedback[gameVariables$currentIndex])
+          })
+        }
+
+        #### Game Over Check ----
+        if (gameVariables$correct >= WINSCORE) {
+          sendSweetAlert(
+            session = session,
+            title = "You Win!",
+            type = "success",
+            text = "You have won the game! Congrats!"
+          )
+          updateButton(
+            session = session,
+            inputId = "nextQuestion",
+            disabled = TRUE
+          )
+        } else if (gameVariables$mistakes  >= 4) {
+          sendSweetAlert(
+            session = session,
+            title = "You lost.",
+            type = "error",
+            text = "You have lost the game. Please try again.",
+            closeOnClickOutside = FALSE
+          )
+          updateButton(
+            session = session,
+            inputId = "nextQuestion",
+            disabled = TRUE
+          )
+        }
       }
     })
 
